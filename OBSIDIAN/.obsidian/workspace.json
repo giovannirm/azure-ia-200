@@ -1,0 +1,273 @@
+{
+  "main": {
+    "id": "2b3b5cce8bbf6618",
+    "type": "split",
+    "children": [
+      {
+        "id": "9b4a995af37dfcb0",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "cde6adb1fdc95b9e",
+            "type": "leaf",
+            "state": {
+              "type": "excalidraw",
+              "state": {
+                "file": "LESSON 1/2. Suscripción.md"
+              },
+              "icon": "excalidraw-icon",
+              "title": "2. Suscripción"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "ffbb1048e7d1c19e",
+    "type": "split",
+    "children": [
+      {
+        "id": "66bfcdb6d63d4869",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2797ae5668cb1cfa",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de archivos"
+            }
+          },
+          {
+            "id": "35771e50ccc162dc",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Buscar"
+            }
+          },
+          {
+            "id": "bedbdd17740f0b2a",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "2262336644d6678b",
+    "type": "split",
+    "children": [
+      {
+        "id": "14ba4852a9f9e969",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "aff74b22ace427c4",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "LESSON 1/4. ACR.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Enlaces entrantes"
+            }
+          },
+          {
+            "id": "5024b89251a30a54",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "LESSON 1/4. ACR.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Enlaces salientes"
+            }
+          },
+          {
+            "id": "3ec331987af55478",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "c02b58829a0641ee",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Todas las propiedades"
+            }
+          },
+          {
+            "id": "8952edef8a270ff4",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Bienvenido.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Esquema"
+            }
+          },
+          {
+            "id": "04e57be63c640a63",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {},
+              "icon": "lucide-ghost",
+              "title": "calendar"
+            }
+          },
+          {
+            "id": "79e8ccc01b88ff4a",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "lucide-ghost",
+              "title": "git-view"
+            }
+          },
+          {
+            "id": "18ac065c13e361b6",
+            "type": "leaf",
+            "state": {
+              "type": "copilot-agent-chat-view",
+              "state": {},
+              "icon": "lucide-ghost",
+              "title": "copilot-agent-chat-view"
+            }
+          }
+        ],
+        "currentTab": 7
+      }
+    ],
+    "direction": "horizontal",
+    "width": 449.19140625,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir selector rápido": false,
+      "graph:Abrir vista gráfica": false,
+      "canvas:Crear nuevo lienzo": false,
+      "daily-notes:Abrir la nota de hoy": false,
+      "templates:Insertar plantilla": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Crear nueva base": false,
+      "obsidian-excalidraw-plugin:Nuevo Bosquejo": false,
+      "obsidian-git:Open Git source control": false,
+      "obsidian-kanban:Create new board": false,
+      "copilot:Open Copilot Agent Chat": false
+    }
+  },
+  "active": "cde6adb1fdc95b9e",
+  "lastOpenFiles": [
+    "PDFs/Guía de Laboratorio Azure AI-200 - ACR Tasks (Floci).pdf",
+    "PDFs/padron_clientes_2026-10-10.csv",
+    "PDFs/Guía de Laboratorio Azure AI-200 - ACR Tasks.pdf",
+    "PDFs",
+    "LESSON 1/2. Suscripción.md",
+    "LESSON 1/1. Objetivos de aprendizaje módulo 1.md",
+    "LESSON 1/3. Introducción.md",
+    "LESSON 3/1. Resumen del módulo 2.md",
+    "LESSON 3/2. Preguntas de debate.md",
+    "LESSON 3/3. Objetivos de aprendiza módulo 3.md",
+    "LESSON 3/4. Introducción.md",
+    "LESSON 3/5. Exploración Container Apps.md",
+    "videos/1. ACR.mp4",
+    "videos/2. AAS.mp4",
+    "PPTs/~$AI-200 PARTE 1.pptx",
+    "PPTs/AI-200 PARTE 3.pptx",
+    "PPTs/Sin confirmar 816952.crdownload",
+    "PPTs/AI-200 PARTE 2.pptx",
+    "PPTs/Sin confirmar 62082.crdownload",
+    "LESSON 3/6. Prueba de conocimientos.md",
+    "LESSON 3/images/Pasted Image 20261003092633_255.png",
+    "LESSON 2/1. Prueba de conocimientos.md",
+    "LESSON 3/images/Pasted Image 20261003104008_622.png",
+    "LESSON 3/images/Pasted Image 20261003103852_453.png",
+    "LESSON 3/images/Pasted Image 20261003102306_786.png",
+    "LESSON 3/images/Pasted Image 20261003100919_301.png",
+    "LESSON 3/images/Pasted Image 20261003100811_446.png",
+    "LESSON 3/images/Pasted Image 20261003100218_228.png",
+    "Pasted image 20261003100011.png",
+    "LESSON 3/images/Pasted Image 20261003100025_656.png",
+    "LESSON 3/Untitled Kanban.md",
+    "copilot/skills/copilot-fetch-x/SKILL.md",
+    "LESSON 2/images/Pasted Image 20261003092440_280.png",
+    "LESSON 2/6. Observabilidad en AAS.md",
+    "LESSON 2/5. Azure App Service.md",
+    "LESSON 2/2. Resumen del módulo 1.md",
+    "LESSON 2/4. Introducción.md",
+    "LESSON 2/3. Objetivos de aprendizaje módulo 2.md",
+    "LESSON 1/4. ACR.md",
+    "copilot/skills/obsidian-cli/SKILL.md",
+    "copilot/skills/json-canvas/SKILL.md",
+    "copilot/skills/json-canvas/references/EXAMPLES.md",
+    "copilot/skills/obsidian-bases/SKILL.md",
+    "copilot/skills/obsidian-bases/references/EXAMPLES.md",
+    "copilot/skills/obsidian-bases/references/FUNCTIONS_REFERENCE.md",
+    "copilot/skills/obsidian-markdown/SKILL.md"
+  ]
+}

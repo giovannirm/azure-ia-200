@@ -1,0 +1,6 @@
+# Ignore large local video binaries
+videos/*.mp4
+*.mp4
+
+# Temporary verification artifacts
+.verify_page_*.png

@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Módulo 01: Build and Run Container Images with ACR Tasks - Azure AI-200</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      max-height: 297mm;
+      overflow: hidden;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 7mm 12mm 5mm 12mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      page-break-after: always;
+      break-after: page;
+      position: relative;
+    }
+
+    .page-content {
+      display: flex;
+      flex-direction: column;
+      gap: 4.5px;
+    }
+
+    /* Header styling */
+    .header-badge {
+      display: inline-block;
+      align-self: flex-start;
+      background-color: #e0f2fe;
+      color: #0284c7;
+      font-size: 8px;
+      font-weight: 700;
+      padding: 1.5px 6.5px;
+      border-radius: 9999px;
+      letter-spacing: 0.4px;
+      margin-bottom: 2px;
+    }
+
+    h1.doc-title {
+      color: #0078d4;
+      font-size: 16.5px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+
+    p.doc-subtitle {
+      color: #64748b;
+      font-size: 9.5px;
+      margin-bottom: 2px;
+    }
+
+    .divider {
+      height: 2px;
+      background-color: #0078d4;
+      margin-bottom: 2px;
+    }
+
+    /* Grids */
+    .two-col-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6.5px;
+    }
+
+    .three-col-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 5.5px;
+    }
+
+    /* Cards */
+    .info-card {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 5px;
+      padding: 5.5px 7.5px;
+    }
+
+    .info-card-title {
+      color: #0078d4;
+      font-size: 8.8px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      margin-bottom: 2px;
+      text-transform: uppercase;
+    }
+
+    .info-card-content {
+      font-size: 8.4px;
+      line-height: 1.32;
+      color: #334155;
+    }
+
+    .info-card-content p {
+      margin-bottom: 1px;
+    }
+
+    .info-card-content code {
+      font-family: 'JetBrains Mono', monospace;
+      color: #0f172a;
+      background: #e2e8f0;
+      padding: 1px 2.5px;
+      border-radius: 2px;
+      font-size: 8px;
+    }
+
+    /* Banners */
+    .banner-green {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 4px;
+      padding: 4.5px 7.5px;
+      font-size: 8.5px;
+      line-height: 1.3;
+      color: #166534;
+    }
+
+    .banner-green strong {
+      color: #15803d;
+    }
+
+    .banner-blue {
+      background-color: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 4px;
+      padding: 4.5px 7.5px;
+      font-size: 8.5px;
+      line-height: 1.3;
+      color: #1e40af;
+    }
+
+    .banner-blue strong {
+      color: #1d4ed8;
+    }
+
+    .banner-amber {
+      background-color: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 4px;
+      padding: 4.5px 7.5px;
+      font-size: 8.5px;
+      line-height: 1.3;
+      color: #92400e;
+    }
+
+    .banner-amber strong {
+      color: #b45309;
+    }
+
+    /* Section components */
+    .section-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      border-left: 3.5px solid #0078d4;
+      padding-left: 5px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #0f172a;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+    }
+
+    .task-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 5px;
+      padding: 5.5px 7.5px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    }
+
+    .task-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2px;
+    }
+
+    .task-cmd-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .badge-tag {
+      background-color: #0078d4;
+      color: #ffffff;
+      font-size: 7.5px;
+      font-weight: 700;
+      padding: 1.5px 5px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .badge-purple { background-color: #7c3aed; }
+    .badge-teal   { background-color: #0d9488; }
+    .badge-amber  { background-color: #d97706; }
+    .badge-green  { background-color: #16a34a; }
+    .badge-indigo { background-color: #4f46e5; }
+
+    .task-description {
+      font-size: 8.6px;
+      color: #475569;
+      margin-bottom: 2.5px;
+      line-height: 1.25;
+    }
+
+    /* Terminal Window Styling */
+    .terminal-box {
+      background-color: #0f172a;
+      border-radius: 4px;
+      padding: 5.5px 7.5px;
+      font-family: 'JetBrains Mono', 'Liberation Mono', monospace;
+      font-size: 8.2px;
+      line-height: 1.34;
+      color: #f1f5f9;
+      overflow: hidden;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .terminal-box .comment {
+      color: #64748b;
+      font-style: italic;
+    }
+
+    .terminal-box .cmd {
+      color: #38bdf8;
+      font-weight: 600;
+    }
+
+    .terminal-box .flag {
+      color: #93c5fd;
+    }
+
+    .terminal-box .arg {
+      color: #e2e8f0;
+    }
+
+    .terminal-box .val {
+      color: #fde047;
+    }
+
+    .terminal-box .env-var {
+      color: #f472b6;
+    }
+
+    .terminal-box .backtick {
+      color: #38bdf8;
+      font-weight: 700;
+    }
+
+    .task-note {
+      margin-top: 2.5px;
+      font-size: 8.4px;
+      color: #475569;
+      line-height: 1.25;
+    }
+
+    .task-note strong {
+      color: #0f172a;
+    }
+
+    .task-note code {
+      font-family: 'JetBrains Mono', monospace;
+      background-color: #f1f5f9;
+      padding: 1px 2.5px;
+      border-radius: 2px;
+      font-size: 7.9px;
+      color: #0369a1;
+    }
+
+    /* Table styling */
+    .table-container {
+      margin-top: 1.5px;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    table.info-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8.2px;
+      text-align: left;
+    }
+
+    table.info-table th {
+      background-color: #f8fafc;
+      color: #334155;
+      font-weight: 700;
+      padding: 3px 5px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    table.info-table td {
+      padding: 3px 5px;
+      border-bottom: 1px solid #f1f5f9;
+      color: #334155;
+      line-height: 1.26;
+    }
+
+    table.info-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    table.info-table td strong {
+      color: #0f172a;
+    }
+
+    table.info-table td code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.8px;
+      color: #0284c7;
+      background: #e0f2fe;
+      padding: 1px 2.5px;
+      border-radius: 2px;
+    }
+
+    /* Script detail cards */
+    .script-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      padding: 4.5px 6.5px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .script-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 1.5px;
+    }
+
+    .script-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8.9px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .script-badge {
+      font-size: 7.2px;
+      font-weight: 700;
+      padding: 1px 4px;
+      border-radius: 2px;
+      text-transform: uppercase;
+    }
+
+    .script-body {
+      font-size: 8.1px;
+      color: #334155;
+      line-height: 1.27;
+    }
+
+    .script-body ul {
+      margin-left: 12px;
+      margin-top: 1.5px;
+    }
+
+    .script-body li {
+      margin-bottom: 1px;
+    }
+
+    .script-body code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.8px;
+      color: #0369a1;
+      background: #f1f5f9;
+      padding: 1px 2px;
+      border-radius: 2px;
+    }
+
+    /* Exam QA Cards */
+    .qa-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      padding: 4.5px 6.5px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5px;
+    }
+
+    .qa-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .qa-title {
+      font-size: 8.6px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .qa-topic-tag {
+      font-size: 7.2px;
+      font-weight: 700;
+      color: #0284c7;
+      background: #e0f2fe;
+      padding: 1px 4px;
+      border-radius: 2px;
+    }
+
+    .qa-scenario {
+      font-size: 7.9px;
+      color: #334155;
+      line-height: 1.24;
+    }
+
+    .qa-options {
+      font-size: 7.8px;
+      color: #475569;
+      line-height: 1.22;
+      margin-left: 2px;
+    }
+
+    .qa-options div {
+      margin-bottom: 1px;
+    }
+
+    .qa-answer {
+      font-size: 7.9px;
+      background: #f0fdf4;
+      border-left: 3px solid #16a34a;
+      padding: 2px 4px;
+      color: #166534;
+      font-weight: 600;
+      margin-top: 1px;
+    }
+
+    .qa-rationale {
+      font-size: 7.6px;
+      color: #475569;
+      line-height: 1.22;
+      margin-top: 1px;
+    }
+
+    .qa-rationale strong {
+      color: #0f172a;
+    }
+
+    /* Footer styling */
+    .page-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 3.5px;
+      font-size: 7.5px;
+      font-weight: 600;
+      color: #94a3b8;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== PÁGINA 1 ==================== -->
+  <div class="page">
+    <div class="page-content">
+      <div>
+        <div class="header-badge">AZURE AI-200 / AI-102 • GUÍA GENERAL DE LABORATORIO Y ARQUITECTURA</div>
+        <h1 class="doc-title">Módulo 01: Build and Run Container Images with ACR Tasks</h1>
+        <p class="doc-subtitle">Fundamentos de Azure CLI, ciclo de vida serverless OCI y gobernanza en Azure Container Registry</p>
+        <div class="divider"></div>
+      </div>
+
+      <!-- Tarjetas de contexto y requisitos generales -->
+      <div class="two-col-grid">
+        <div class="info-card">
+          <div class="info-card-title">Prerrequisitos Universales del Entorno</div>
+          <div class="info-card-content">
+            <p>• <strong>Suscripción de Azure:</strong> Requiere plan con soporte de ACR Tasks (ej. <code>Pay-As-You-Go</code>).</p>
+            <p>• <strong>Azure CLI:</strong> Versión 2.50+ instalada localmente o en Azure Cloud Shell (<code>az --version</code>).</p>
+            <p>• <strong>Python 3.10+:</strong> Para ejecutar scripts de despliegue automatizado (<code>azdeploy.py</code>).</p>
+            <p>• <strong>Permisos RBAC:</strong> Rol <code>Contributor</code> sobre el Resource Group o <code>AcrPush</code>/<code>AcrPull</code>.</p>
+            <p>• <strong>Sin Docker local:</strong> No se requiere Docker Desktop ni daemon de contenedores instalado.</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card-title">Consideraciones y Avisos Críticos de Azure</div>
+          <div class="info-card-content">
+            <p>• <strong>Restricción de suscripción:</strong> ACR Tasks no está disponible en suscripciones con créditos gratuitos.</p>
+            <p>• <strong>Unicidad global de DNS:</strong> El nombre de ACR debe ser único a nivel mundial (<code>&lt;name&gt;.azurecr.io</code>).</p>
+            <p>• <strong>Latencia de propagación de CLI:</strong> Al crear registros, reintente los comandos ante demoras de replicación.</p>
+            <p>• <strong>Sintaxis de terminal:</strong> PowerShell usa acento grave (<code>`</code>) para multilínea; Bash/macOS usa barra invertida (<code>\</code>).</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Banner de starter project -->
+      <div class="banner-blue">
+        <strong>Estructura del Proyecto Fuente:</strong> Paquete oficial descargado en <code>CODE/1. acr-tasks-python/</code> que contiene la aplicación web Flask (<code>api/app.py</code>), el archivo de construcción OCI (<code>api/Dockerfile</code>) y el script de aprovisionamiento de infraestructura (<code>azdeploy.py</code>).
+      </div>
+
+      <!-- Sección Didáctica: Fundamentos de Azure CLI para principiantes -->
+      <div class="section-group">
+        <div class="section-heading">Fundamentos y Anatomía de Azure CLI (Guía para Nuevos Usuarios)</div>
+        <div class="info-card">
+          <div class="info-card-content">
+            <p><strong>Estructura jerárquica de comandos:</strong> Toda instrucción sigue el patrón: <code>az &lt;servicio&gt; &lt;subgrupo&gt; &lt;acción&gt; [--parámetros]</code>. Por ejemplo: <code>az acr repository list</code> interactúa con el servicio ACR, subgrupo repositorio, y la acción listar.</p>
+          </div>
+        </div>
+
+        <!-- Tabla de flags indispensables -->
+        <div class="table-container">
+          <table class="info-table">
+            <thead>
+              <tr>
+                <th style="width: 26%;">Parámetro / Flag</th>
+                <th style="width: 38%;">Propósito Técnico</th>
+                <th style="width: 36%;">Ejemplo de Uso</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>--resource-group</code> (<code>-g</code>)</td>
+                <td>Define el contenedor lógico de ciclo de vida en Azure.</td>
+                <td><code>--resource-group rg-lab-eastus</code></td>
+              </tr>
+              <tr>
+                <td><code>--name</code> (<code>-n</code>)</td>
+                <td>Nombre del recurso que se está creando o consultando.</td>
+                <td><code>--name acra1b2c3d4</code></td>
+              </tr>
+              <tr>
+                <td><code>--registry</code></td>
+                <td>Nombre del Azure Container Registry destino en ACR Tasks.</td>
+                <td><code>--registry $env:ACR_NAME</code></td>
+              </tr>
+              <tr>
+                <td><code>--image</code></td>
+                <td>Repositorio y etiqueta asignada a la imagen compilada.</td>
+                <td><code>--image inference-api:v1.0.0</code></td>
+              </tr>
+              <tr>
+                <td><code>--output</code> (<code>-o</code>)</td>
+                <td>Formato de salida: <code>table</code> (legible), <code>json</code> o <code>tsv</code> (parseo limpio).</td>
+                <td><code>--output table</code> | <code>-o tsv</code></td>
+              </tr>
+              <tr>
+                <td><code>--query</code> (JMESPath)</td>
+                <td>Filtra la respuesta en el cliente para extraer un dato específico.</td>
+                <td><code>--query "id"</code> | <code>--query "registrationState"</code></td>
+              </tr>
+              <tr>
+                <td><code>--no-wait</code> / <code>--yes</code></td>
+                <td>Ejecuta la operación de forma asíncrona sin pedir confirmación.</td>
+                <td><code>az group delete ... --no-wait --yes</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Fase 1: Task 1 - Parte A -->
+      <div class="section-group">
+        <div class="section-heading">Fase 1: Preparación del Entorno, Identidad y Proveedores</div>
+        <div class="task-card">
+          <div class="task-card-header">
+            <span class="task-cmd-name">az login &amp; az provider register</span>
+            <span class="badge-tag">Identidad &amp; API</span>
+          </div>
+          <div class="task-description">Inicie sesión en su cuenta de Azure y registre el proveedor de recursos de contenedores en la suscripción:</div>
+          <div class="terminal-box"><span class="comment"># 1. Autenticación interactiva en la CLI de Azure</span>
+<span class="cmd">az login</span>
+
+<span class="comment"># 2. Verificar la suscripción activa actual</span>
+<span class="cmd">az account show</span> <span class="flag">--output</span> <span class="val">table</span>
+
+<span class="comment"># 3. Registrar el Resource Provider de Azure Container Registry (obligatorio)</span>
+<span class="cmd">az provider register</span> <span class="flag">--namespace</span> <span class="val">Microsoft.ContainerRegistry</span>
+
+<span class="comment"># 4. Verificar el estado del proveedor (debe retornar "Registered")</span>
+<span class="cmd">az provider show</span> <span class="backtick">`</span>
+  <span class="flag">--namespace</span> <span class="val">Microsoft.ContainerRegistry</span> <span class="backtick">`</span>
+  <span class="flag">--query</span> <span class="val">"registrationState"</span> <span class="backtick">`</span>
+  <span class="flag">-o</span> <span class="val">tsv</span></div>
+          <div class="task-note">
+            <strong>¿Por qué registrar el proveedor?:</strong> Las suscripciones de Azure requieren registrar explícitamente el espacio de nombres <code>Microsoft.ContainerRegistry</code> antes de poder aprovisionar registros y ejecutar tareas de compilación serverless.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pie de página 1 -->
+    <div class="page-footer">
+      <span>AZURE AI-200 / AI-102 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
+      <span>PÁGINA 1 DE 7</span>
+    </div>
+  </div>
+
+
+  <!-- ==================== PÁGINA 2 ==================== -->
+  <div class="page">
+    <div class="page-content">
+      <div>
+        <div class="header-badge">AZURE AI-200 / AI-102 • ANATOMÍA DE SCRIPTS Y CÓDIGO FUENTE</div>
+        <h1 class="doc-title">Desglose Técnico del Código del Laboratorio</h1>
+        <p class="doc-subtitle">Análisis arquitectónico de azdeploy.py, Dockerfile y la API de inferencia Flask (CODE/1. acr-tasks-python)</p>
+        <div class="divider"></div>
+      </div>
+
+      <!-- Tarjetas de explicación de scripts -->
+      <div class="section-group">
+        <div class="section-heading">Análisis Arquitectónico de los Archivos del Proyecto</div>
+
+        <!-- azdeploy.py -->
+        <div class="script-card">
+          <div class="script-card-header">
+            <span class="script-title">1. azdeploy.py (Automatización de Infraestructura)</span>
+            <span class="script-badge badge-teal" style="color:white;">Infraestructura como Código</span>
+          </div>
+          <div class="script-body">
+            <p>Script en Python que orquesta el aprovisionamiento de recursos en Azure sin requerir plantillas Bicep ni Terraform:</p>
+            <ul>
+              <li><strong>Variables de entrada (L5-6):</strong> Define <code>rg</code> (Resource Group) y <code>location</code> (región). Son los únicos parámetros editables.</li>
+              <li><strong>Resolución agnóstica de CLI (L25-35):</strong> <code>_resolve_exe("az")</code> ubica el binario <code>az</code> en Linux/macOS o <code>az.cmd</code> en Windows.</li>
+              <li><strong>Identidad y Hashing único (L60-68, L104-106):</strong> Ejecuta <code>az ad signed-in-user show --query id -o tsv</code> para obtener el Object ID de Entra ID. Calcula un hash SHA-1 de 8 caracteres (<code>user_hash</code>) y genera el nombre <code>acr{user_hash}</code>. <em>Motivo:</em> Los nombres de ACR son FQDN globales (<code>&lt;name&gt;.azurecr.io</code>) y deben ser únicos en todo el mundo.</li>
+              <li><strong>Idempotencia en Resource Group (L120-137):</strong> Consulta <code>az group exists</code>; si no existe, lo crea con <code>az group create</code>.</li>
+              <li><strong>Aprovisionamiento del ACR (L139-154):</strong> Ejecuta <code>az acr create --sku Basic</code> para crear el registro de bajo costo.</li>
+              <li><strong>Exportación Multi-Shell (L71-102):</strong> Escribe <code>.env</code> (para Bash: <code>export VAR="..."</code>) y <code>.env.ps1</code> (para PowerShell: <code>$env:VAR = "..."</code>) con UTF-8 y saltos LF, garantizando compatibilidad entre terminales.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Dockerfile -->
+        <div class="script-card">
+          <div class="script-card-header">
+            <span class="script-title">2. api/Dockerfile (Definición de Contenedor OCI)</span>
+            <span class="script-badge badge-green" style="color:white;">Contenedor OCI</span>
+          </div>
+          <div class="script-body">
+            <p>Especificación de capas para empaquetar el microservicio de inferencia de IA en una imagen estándar:</p>
+            <ul>
+              <li><code>FROM python:3.11-slim</code>: Imagen base oficial de Python sobre Debian mínimo (~150 MB). Reduce la superficie de ataque y el tiempo de transferencia en comparación con imágenes completas.</li>
+              <li><code>WORKDIR /app</code>: Establece el directorio de trabajo aislado dentro del sistema de archivos del contenedor.</li>
+              <li><code>RUN pip install --no-cache-dir flask</code>: Instala el microframework web. El flag <code>--no-cache-dir</code> evita almacenar archivos temporales de pip, manteniendo la capa liviana.</li>
+              <li><code>COPY app.py .</code>: Copia el script del microservicio al directorio de trabajo <code>/app</code>.</li>
+              <li><code>ENV APP_VERSION=1.0.0</code> y <code>ENV MODEL_VERSION=v1</code>: Inyecta variables de entorno predeterminadas, desacoplando la configuración del código fuente.</li>
+              <li><code>EXPOSE 5000</code> y <code>CMD ["python", "app.py"]</code>: Declara el puerto de escucha y el comando de arranque del servidor.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- app.py -->
+        <div class="script-card">
+          <div class="script-card-header">
+            <span class="script-title">3. api/app.py (Microservicio de Inferencia de IA)</span>
+            <span class="script-badge badge-purple" style="color:white;">Microservicio REST</span>
+          </div>
+          <div class="script-body">
+            <p>Servidor HTTP REST implementado con Flask que simula una API de inferencia de Machine Learning:</p>
+            <ul>
+              <li><strong>Ruta <code>/health</code>:</strong> Health check probe. Retorna <code>{"status": "healthy", "version": ...}</code>. Esencial para que orquestadores (AKS, Azure Container Apps) comprueben la salud (liveness y readiness).</li>
+              <li><strong>Ruta <code>/predict</code>:</strong> Simulación de inferencia. Retorna predicción, nivel de confianza (<code>0.95</code>) y la versión del modelo leída dinámicamente de la variable de entorno <code>MODEL_VERSION</code>.</li>
+              <li><strong>Ruta <code>/</code>:</strong> Catálogo de endpoints disponibles (<code>/health</code>, <code>/predict</code>) para autodescubrimiento.</li>
+              <li><strong>Arranque (<code>host='0.0.0.0', port=5000</code>):</strong> Vincular el servidor a <code>0.0.0.0</code> es mandatorio para permitir conexiones provenientes del exterior del contenedor.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fase 1: Task 1 - Parte B -->
+      <div class="section-group">
+        <div class="section-heading">Fase 1 (Parte B): Ejecución del Despliegue y Carga de Variables</div>
+        <div class="task-card">
+          <div class="task-card-header">
+            <span class="task-cmd-name">python azdeploy.py &amp; Carga de Entorno</span>
+            <span class="badge-tag badge-teal">Automatización</span>
+          </div>
+          <div class="terminal-box"><span class="comment"># 1. Configurar variables iniciales en azdeploy.py (ej. rg="rg-ai-lab", location="eastus")</span>
+<span class="comment"># 2. Ejecutar el script desde el directorio raíz del proyecto (CODE/1. acr-tasks-python)</span>
+<span class="cmd">python azdeploy.py</span>
+
+<span class="comment"># 3. Cargar las variables de entorno generadas en la sesión actual de la terminal:</span>
+<span class="comment"># En PowerShell:</span>
+<span class="cmd">. .\.env.ps1</span>
+
+<span class="comment"># En Linux / macOS / Bash:</span>
+<span class="cmd">source .env</span>
+
+<span class="comment"># 4. Validar que la variable de entorno contiene el nombre del registro</span>
+<span class="cmd">echo $env:ACR_NAME</span>  <span class="comment"># En PowerShell</span>
+<span class="cmd">echo $ACR_NAME</span>       <span class="comment"># En Bash/Zsh</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pie de página 2 -->
+    <div class="page-footer">
+      <span>AZURE AI-200 / AI-102 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
+      <span>PÁGINA 2 DE 7</span>
+    </div>
+  </div>
+
+
+  <!-- ==================== PÁGINA 3 ==================== -->
+  <div class="page">
+    <div class="page-content">
+      <div>
+        <div class="header-badge">AZURE AI-200 / AI-102 • ARQUITECTURA DEL REGISTRO Y ARTEFACTOS OCI</div>
+        <h1 class="doc-title">Estructura de ACR, Niveles de Servicio y Desduplicación</h1>
+        <p class="doc-subtitle">Jerarquía OCI, espacios de nombres, artefactos Helm y tiers de escalabilidad (Contenido Oficial PPT)</p>
+        <div class="divider"></div>
+      </div>
+
+      <!-- Conceptos arquitectónicos de la PPT (Slide 5 y 6) -->
+      <div class="section-group">
+        <div class="section-heading">Organización y Almacenamiento en Azure Container Registry</div>
+        <div class="three-col-grid">
+          <div class="info-card">
+            <div class="info-card-title">1. Jerarquía del Registro</div>
+            <div class="info-card-content">
+              <p>• <strong>Registro:</strong> Servicio privado administrado en Azure (<code>&lt;acr&gt;.azurecr.io</code>).</p>
+              <p>• <strong>Repositorio:</strong> Agrupación lógica de imágenes con el mismo nombre (ej. <code>inference-api</code>).</p>
+              <p>• <strong>Artefactos:</strong> Imágenes Docker, gráficos de <strong>Helm</strong> y contenido compatible con OCI.</p>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-card-title">2. Espacios de Nombres</div>
+            <div class="info-card-content">
+              <p>• <strong>Organización Multinivel:</strong> ACR permite estructurar repositorios con barras diagonales (<code>/</code>).</p>
+              <p>• <strong>Ejemplo corporativo:</strong> <code>myacr.azurecr.io/marketing/campaign:v1</code>.</p>
+              <p>• <strong>Gobierno RBAC:</strong> Facilita asignar permisos basados en prefijos de repositorios.</p>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-card-title">3. Desduplicación de Capas</div>
+            <div class="info-card-content">
+              <p>• <strong>Direccionable por contenido:</strong> Las capas OCI se indexan por su hash SHA-256 interno.</p>
+              <p>• <strong>Almacenamiento único:</strong> Si 50 imágenes usan <code>python:3.11-slim</code>, la capa se almacena <strong>una sola vez</strong>.</p>
+              <p>• <strong>Ahorro masivo:</strong> Minimiza costos de almacenamiento y tiempo de push/pull.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla de SKUs de la PPT (Slide 5) -->
+      <div class="section-group">
+        <div class="section-heading">Niveles de Servicio (SKUs) de Azure Container Registry</div>
+        <div class="table-container">
+          <table class="info-table">
+            <thead>
+              <tr>
+                <th style="width: 18%;">Nivel (SKU)</th>
+                <th style="width: 44%;">Capacidades y Rendimiento</th>
+                <th style="width: 38%;">Escenario de Uso Recomendado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Básico (Basic)</strong></td>
+                <td>10 GB de almacenamiento incluido. Límites de rendimiento equilibrados para entornos no productivos. Sin Private Link.</td>
+                <td>Desarrollo individual, laboratorios de certificación y prototipos iniciales.</td>
+              </tr>
+              <tr>
+                <td><strong>Estándar (Standard)</strong></td>
+                <td>100 GB de almacenamiento. Mayor rendimiento de lectura/escritura (operaciones por minuto) y mayor tasa de transferencia.</td>
+                <td>Cargas de trabajo de producción estándar con despliegues frecuentes y pipelines CI/CD.</td>
+              </tr>
+              <tr>
+                <td><strong>Premium</strong></td>
+                <td>500 GB de almacenamiento. <strong>Replicación Geográfica</strong> multi-región, Content Trust (firmado digital con Notary), Private Endpoints (VNet) y retención.</td>
+                <td>Arquitecturas globales multirregión (AKS multi-cluster), alta disponibilidad y máxima seguridad empresarial.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Fase 2: Task 2 -->
+      <div class="section-group">
+        <div class="section-heading">Fase 2: Compilación Cloud Serverless con ACR Tasks (Quick Tasks)</div>
+        <div class="task-card">
+          <div class="task-card-header">
+            <span class="task-cmd-name">az acr build (Tarea 2 del Laboratorio)</span>
+            <span class="badge-tag badge-green">Serverless Build</span>
+          </div>
+          <div class="task-description">Empaqueta el contexto local, lo transfiere por HTTPS a Azure y ejecuta la compilación en agentes administrados sin requerir Docker instalado localmente:</div>
+          <div class="terminal-box"><span class="comment"># Compilación básica y push directo al registro usando el contexto local ./api</span>
+<span class="cmd">az acr build</span> <span class="backtick">`</span>
+  <span class="flag">--registry</span> <span class="env-var">$env:ACR_NAME</span> <span class="backtick">`</span>
+  <span class="flag">--image</span> <span class="val">inference-api:v1.0.0</span> <span class="backtick">`</span>
+  <span class="arg">./api</span>
+
+<span class="comment"># Desglose de flags:</span>
+<span class="comment"># --registry : Especifica el ACR que recibirá la imagen una vez compilada.</span>
+<span class="comment"># --image    : Nombre del repositorio y tag a asignar (inference-api con tag v1.0.0).</span>
+<span class="comment"># ./api      : Carpeta local con el Dockerfile y app.py comprimida y subida como contexto.</span>
+
+<span class="comment"># Variaciones avanzadas de compilación en la nube:</span>
+<span class="comment"># 1. Especificar un Dockerfile alternativo:</span>
+<span class="cmd">az acr build</span> <span class="flag">--registry</span> <span class="env-var">$env:ACR_NAME</span> <span class="flag">--image</span> <span class="val">inference-api:v1.0.0</span> <span class="flag">--file</span> <span class="val">./api/Dockerfile.prod</span> <span class="arg">./api</span>
+
+<span class="comment"># 2. Inyección de argumentos de construcción en tiempo de compilación:</span>
+<span class="cmd">az acr build</span> <span class="flag">--registry</span> <span class="env-var">$env:ACR_NAME</span> <span class="flag">--image</span> <span class="val">inference-api:v1.0.0</span> <span class="flag">--build-arg</span> <span class="val">MODEL_VERSION=2.1</span> <span class="arg">./api</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pie de página 3 -->
+    <div class="page-footer">
+      <span>AZURE AI-200 / AI-102 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
+      <span>PÁGINA 3 DE 7</span>
+    </div>
+  </div>
+
+
+  <!-- ==================== PÁGINA 4 ==================== -->
+  <div class="page">
+    <div class="page-content">
+      <div>
+        <div class="header-badge">AZURE AI-200 / AI-102 • CICLO DE VIDA SERVERLESS Y TESTING CLOUD</div>
+        <h1 class="doc-title">Ciclo de Vida de ACR Tasks y Validación On-Demand</h1>
+        <p class="doc-subtitle">Las 5 fases de build en Azure, inspección OCI, direccionamiento y testing serverless con az acr run</p>
+        <div class="divider"></div>
+      </div>
+
+      <!-- Banner de 5 fases de ACR Tasks -->
+      <div class="banner-green">
+        <strong>Ciclo de Vida Interno de ACR Tasks (5 Fases en la Nube de Azure):</strong><br>
+        1. <strong>Empaquetado y Carga:</strong> Comprime el contexto de <code>./api</code> en un tarball y lo sube por HTTPS seguro al storage de ACR.<br>
+        2. <strong>Encolado de Tarea:</strong> Encola la solicitud y aprovisiona un agente de cómputo efímero y aislado administrado por Azure.<br>
+        3. <strong>Streaming de Capas:</strong> Ejecuta las instrucciones del Dockerfile transmitiendo los logs en vivo a su terminal.<br>
+        4. <strong>Inserción en Registro:</strong> Publica la imagen terminada directamente en su Azure Container Registry privado.<br>
+        5. <strong>Reporte de Digest y Estado:</strong> Genera el hash inmutable SHA-256 y confirma el resultado exitoso (<i>Task Succeeded</i>).
+      </div>
+
+      <!-- Fase 3: Task 3 -->
+      <div class="section-group">
+        <div class="section-heading">Fase 3: Inspección del Registro, Repositorios e Inmutabilidad OCI</div>
+        <div class="task-card">
+          <div class="task-card-header">
+            <span class="task-cmd-name">az acr repository &amp; az acr manifest (Tarea 3)</span>
+            <span class="badge-tag badge-purple">Inspección OCI</span>
+          </div>
+          <div class="task-description">Confirme que el artefacto existe en el registro mediante consultas a repositorios, etiquetas y metadatos:</div>
+          <div class="terminal-box"><span class="comment"># 1. Listar repositorios en el ACR (confirma la presencia de inference-api)</span>
+<span class="cmd">az acr repository list</span> <span class="flag">--name</span> <span class="env-var">$env:ACR_NAME</span> <span class="flag">--output</span> <span class="val">table</span>
+
+<span class="comment"># 2. Listar todas las etiquetas asignadas al repositorio inference-api</span>
+<span class="cmd">az acr repository show-tags</span> <span class="backtick">`</span>
+  <span class="flag">--name</span> <span class="env-var">$env:ACR_NAME</span> <span class="backtick">`</span>
+  <span class="flag">--repository</span> <span class="val">inference-api</span> <span class="backtick">`</span>
+  <span class="flag">--output</span> <span class="val">table</span>
+
+<span class="comment"># 3. Extraer metadatos detallados y el hash criptográfico inmutable (Digest SHA-256)</span>
+<span class="cmd">az acr manifest list-metadata</span> <span class="backtick">`</span>
+  <span class="flag">--registry</span> <span class="env-var">$env:ACR_NAME</span> <span class="backtick">`</span>
+  <span class="flag">--name</span> <span class="val">inference-api</span> <span class="backtick">`</span>
+  <span class="flag">--output</span> <span class="val">table</span></div>
+        </div>
+      </div>
+
+      <!-- Direccionamiento OCI (Slide 6 PPT) -->
+      <div class="section-group">
+        <div class="section-heading">Direccionamiento de Imágenes OCI: Etiquetas vs Resúmenes (PPT Slide 6)</div>
+        <div class="table-container">
+          <table class="info-table">
+            <thead>
+              <tr>
+                <th style="width: 25%;">Método de Referencia</th>
+                <th style="width: 38%;">Sintaxis Técnica Oficial</th>
+                <th style="width: 37%;">Comportamiento en Producción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Por Etiqueta (Tag)</strong></td>
+                <td><code>registry.azurecr.io/api:v1.2.0</code></td>
+                <td>Puntero legible pero <strong>mutable</strong>. Un push posterior puede reasignar el tag y provocar discrepancias entre nodos.</td>
+              </tr>
+              <tr>
+                <td><strong>Por Resumen (Digest SHA-256)</strong></td>
+                <td><code>registry.azurecr.io/api@sha256:0a2e...</code></td>
+                <td>Identificador <strong>estrictamente inmutable</strong>. Garantiza que todos los clústeres y nodos ejecuten la versión idéntica.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Fase 4: Task 4 -->
+      <div class="section-group">
+        <div class="section-heading">Fase 4: Ejecución On-Demand de la Imagen con az acr run (Testing Cloud)</div>
+        <div class="task-card">
+          <div class="task-card-header">
+            <span class="task-cmd-name">az acr run (Tarea 4 del Laboratorio)</span>
+            <span class="badge-tag badge-indigo">Testing Cloud</span>
+          </div>
+          <div class="task-description">Instancia un contenedor efímero serverless para validar que la API Flask (<code>app.py</code>) carga sin errores y sin desplegar clústeres:</div>
+          <div class="terminal-box"><span class="comment"># Validar la importación del framework Flask y los módulos de inferencia sin contexto</span>
+<span class="cmd">az acr run</span> <span class="backtick">`</span>
+  <span class="flag">--registry</span> <span class="env-var">$env:ACR_NAME</span> <span class="backtick">`</span>
+  <span class="flag">--cmd</span> <span class="val">"$env:ACR_NAME.azurecr.io/inference-api:v1.0.0 python -c 'from app import app'"</span> <span class="backtick">`</span>
+  <span class="val">/dev/null</span>
+
+<span class="comment"># Desglose de parámetros:</span>
+<span class="comment"># --cmd     : Comando a ejecutar dentro del contenedor una vez descargado.</span>
+<span class="comment"># /dev/null : Indica que no se transfiere contexto de archivos local (ejecución pura de la imagen).</span></div>
+          <div class="task-note">
+            <strong>Criterio de validación:</strong> La consola muestra el progreso del <i>Docker pull</i>. Una ejecución exitosa culmina con <code>Run ID: xxx was successful after xxx</code>, garantizando que el entorno Python y sus módulos arrancan correctamente.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pie de página 4 -->
+    <div class="page-footer">
+      <span>AZURE AI-200 / AI-102 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
+      <span>PÁGINA 4 DE 7</span>
+    </div>
+  </div>
+
+
+  <!-- ==================== PÁGINA 5 ==================== -->
+  <div class="page">
+    <div class="page-content">
+      <div>
+        <div class="header-badge">AZURE AI-200 / AI-102 • AUTOMATIZACIÓN AVANZADA Y GOBERNANZA</div>
+        <h1 class="doc-title">Automatización CI/CD, Multiversioning y Gobernanza</h1>
+        <p class="doc-subtitle">Disparadores por Git Commit, macros dinámicas, bloqueo inmutable y purga programada con acr purge</p>
+        <div class="divider"></div>
+      </div>
+
+      <!-- Automatización Avanzada con Git Triggers (Slide 7 PPT) -->
+      <div class="section-group">
+        <div class="section-heading">Automatización Avanzada: Desencadenadores de Código Fuente (PPT Slide 7)</div>
+        <div class="task-card">
+          <div class="task-card-header">
+            <span class="task-cmd-name">az acr task create (Source Trigger en GitHub)</span>
+            <span class="badge-tag badge-purple">Automatización CI</span>
+          </div>
+          <div class="task-description">Crea una tarea persistente en Azure que compila automáticamente la imagen cada vez que se realiza un commit en el repositorio:</div>
+          <div class="terminal-box"><span class="comment"># Crear tarea automatizada con disparador por Git commit y token de acceso personal (PAT)</span>
+<span class="cmd">az acr task create</span> <span class="backtick">`</span>
+  <span class="flag">--registry</span> <span class="env-var">$env:ACR_NAME</span> <span class="backtick">`</span>
+  <span class="flag">--name</span> <span class="val">build-inference-api</span> <span class="backtick">`</span>
+  <span class="flag">--image</span> <span class="val">inference-api:{{.Run.ID}}</span> <span class="backtick">`</span>
+  <span class="flag">--context</span> <span class="val">https://github.com/myorg/inference-api.git#main</span> <span class="backtick">`</span>
+  <span class="flag">--file</span> <span class="val">Dockerfile</span> <span class="backtick">`</span>
+  <span class="flag">--git-access-token</span> <span class="val">$PAT</span></div>
+          <div class="task-note">
+            <strong>Macros de variables dinámicas de ACR Tasks:</strong> El parámetro <code>{{.Run.ID}}</code> asigna un identificador único correlativo por compilación. Otras macros útiles: <code>{{.Run.Git.SHA}}</code> (commit hash de Git) y <code>{{.Run.Date}}</code> (marca de tiempo).
+          </div>
+        </div>
+      </div>
+
+      <!-- Fase 5: Task 5 -->
+      <div class="section-group">
+        <div class="section-heading">Fase 5: Multiversioning de Contenedores con Nueva Etiqueta (Tarea 5)</div>
+        <div class="task-card">
+          <div class="task-card-header">
+            <span class="task-cmd-name">az acr build v1.1.0 &amp; show-tags</span>
+            <span class="badge-tag badge-green">Multiversión</span>
+          </div>
+          <div class="terminal-box"><span class="comment"># Compilar y subir la nueva iteración de la imagen con la etiqueta v1.1.0</span>
+<span class="cmd">az acr build</span> <span class="flag">--registry</span> <span class="env-var">$env:ACR_NAME</span> <span class="flag">--image</span> <span class="val">inference-api:v1.1.0</span> <span class="arg">./api</span>
+
+<span class="comment"># Listar etiquetas para verificar la coexistencia de ambas versiones en el registro</span>
+<span class="cmd">az acr repository show-tags</span> <span class="flag">--name</span> <span class="env-var">$env:ACR_NAME</span> <span class="flag">--repository</span> <span class="val">inference-api</span> <span class="flag">--output</span> <span class="val">table</span></div>
+        </div>
+      </div>
+
+      <!-- Fase 6: Gobernanza y Bloqueo (Slide 8 PPT) -->
+      <div class="section-group">
+        <div class="section-heading">Fase 6: Gobernanza, Bloqueo de Imagen y Purga de Imágenes Huérfanas</div>
+        <div class="two-col-grid">
+          <!-- Bloqueo -->
+          <div class="task-card">
+            <div class="task-card-header">
+              <span class="task-cmd-name">Bloqueo de Producción</span>
+              <span class="badge-tag badge-purple">Inmutabilidad</span>
+            </div>
+            <div class="task-description">Bloquea la imagen para evitar eliminación o sobreescritura accidental:</div>
+            <div class="terminal-box"><span class="comment"># Impedir sobreescritura de v1.0.0</span>
+<span class="cmd">az acr repository update</span> <span class="backtick">`</span>
+  <span class="flag">--name</span> <span class="env-var">$env:ACR_NAME</span> <span class="backtick">`</span>
+  <span class="flag">--image</span> <span class="val">inference-api:v1.0.0</span> <span class="backtick">`</span>
+  <span class="flag">--write-enabled</span> <span class="val">false</span>
+
+<span class="comment"># Impedir eliminación</span>
+<span class="cmd">az acr repository update</span> <span class="backtick">`</span>
+  <span class="flag">--name</span> <span class="env-var">$env:ACR_NAME</span> <span class="backtick">`</span>
+  <span class="flag">--image</span> <span class="val">inference-api:v1.0.0</span> <span class="backtick">`</span>
+  <span class="flag">--delete-enabled</span> <span class="val">false</span></div>
+          </div>
+
+          <!-- Purga -->
+          <div class="task-card">
+            <div class="task-card-header">
+              <span class="task-cmd-name">Purga Programada (acr purge)</span>
+              <span class="badge-tag badge-amber">Ahorro Costes</span>
+            </div>
+            <div class="task-description">Programa la limpieza semanal de imágenes sin etiqueta (dangling):</div>
+            <div class="terminal-box"><span class="comment"># Tarea programada semanalmente</span>
+<span class="cmd">az acr task create</span> <span class="backtick">`</span>
+  <span class="flag">--registry</span> <span class="env-var">$env:ACR_NAME</span> <span class="backtick">`</span>
+  <span class="flag">--name</span> <span class="val">cleanup-untagged</span> <span class="backtick">`</span>
+  <span class="flag">--cmd</span> <span class="val">"acr purge --filter '.*:.*' --untagged --ago 7d"</span> <span class="backtick">`</span>
+  <span class="flag">--schedule</span> <span class="val">"0 0 * * 0"</span> <span class="backtick">`</span>
+  <span class="flag">--context</span> <span class="val">/dev/null</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pie de página 5 -->
+    <div class="page-footer">
+      <span>AZURE AI-200 / AI-102 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
+      <span>PÁGINA 5 DE 7</span>
+    </div>
+  </div>
+
+
+  <!-- ==================== PÁGINA 6 ==================== -->
+  <div class="page">
+    <div class="page-content">
+      <div>
+        <div class="header-badge">AZURE AI-200 / AI-102 • LIMPIEZA Y TROUBLESHOOTING</div>
+        <h1 class="doc-title">Limpieza de Recursos y Diagnóstico Oficial</h1>
+        <p class="doc-subtitle">Desaprovisionamiento asíncrono, chequeo de salud y resolución de incidentes frecuentes en Azure</p>
+        <div class="divider"></div>
+      </div>
+
+      <!-- Fase 7: Clean Up -->
+      <div class="section-group">
+        <div class="section-heading">Fase 7: Limpieza de Recursos y Comandos de Diagnóstico</div>
+        <div class="task-card">
+          <div class="task-card-header">
+            <span class="task-cmd-name">az group delete &amp; az acr check-health</span>
+            <span class="badge-tag badge-amber">Clean Up</span>
+          </div>
+          <div class="task-description">Comandos para finalizar el laboratorio y eliminar recursos para evitar consumos no deseados:</div>
+          <div class="terminal-box"><span class="comment"># Borrado seguro y asíncrono del Resource Group y todos los recursos anidados</span>
+<span class="cmd">az group delete</span> <span class="flag">--name</span> <span class="val">&lt;your-resource-group-name&gt;</span> <span class="flag">--no-wait</span> <span class="flag">--yes</span>
+
+<span class="comment"># Comandos complementarios de depuración y acceso local:</span>
+<span class="comment"># Diagnostica conectividad de red, resolución DNS y servicio Docker</span>
+<span class="cmd">az acr check-health</span> <span class="flag">--name</span> <span class="env-var">$env:ACR_NAME</span> <span class="flag">--yes</span>
+
+<span class="comment"># Autentica el cliente Docker local con el registro privado de Azure (si se utiliza localmente)</span>
+<span class="cmd">az acr login</span> <span class="flag">--name</span> <span class="env-var">$env:ACR_NAME</span></div>
+        </div>
+      </div>
+
+      <!-- Banner de advertencia de borrado -->
+      <div class="banner-amber">
+        ⚠️ <strong>Precaución de Limpieza en Cascada:</strong> El comando <code>az group delete</code> elimina de forma permanente el grupo de recursos y todos los componentes asociados (registro ACR, repositorios, etiquetas e historiales de tareas). Si utilizó un grupo compartido, asegúrese de que no contenga otros recursos en producción.
+      </div>
+
+      <!-- Sección de Troubleshooting Oficial -->
+      <div class="section-group">
+        <div class="section-heading">Guía Oficial de Resolución de Problemas (Troubleshooting)</div>
+        <div class="two-col-grid">
+          <div class="info-card">
+            <div class="info-card-title">1. Sesión y Variables de Entorno</div>
+            <div class="info-card-content">
+              <p>• <strong>Verificar suscripción:</strong> Ejecute <code>az account show</code> para confirmar que opera en la suscripción activa adecuada.</p>
+              <p>• <strong>Variable vacía:</strong> Si <code>$env:ACR_NAME</code> está vacía en una terminal nueva, reejecute: <code>. .\.env.ps1</code> (PowerShell) o <code>source .env</code> (Bash).</p>
+              <p>• <strong>Suscripción Pay-As-You-Go:</strong> Recuerde que ACR Tasks requiere plan de pago habilitado.</p>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-card-title">2. Despliegue y Fallos de Compilación</div>
+            <div class="info-card-content">
+              <p>• <strong>Estado del ACR:</strong> Verifique en portal o ejecute <code>az acr list --output table</code>; el <i>Provisioning State</i> debe ser <b>Succeeded</b>.</p>
+              <p>• <strong>Ruta de compilación:</strong> Confirme que ejecuta la orden desde la raíz del proyecto donde reside la carpeta <code>./api</code> con su <code>Dockerfile</code>.</p>
+              <p>• <strong>Diagnóstico de tareas:</strong> Inspeccione errores con <code>az acr task list-runs --registry $env:ACR_NAME --output table</code>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cuatro tarjetas de reglas de examen (Slide 12 PPT) -->
+      <div class="section-group">
+        <div class="section-heading">Reglas de Oro de Arquitectura para el Examen (PPT Slide 12)</div>
+        <div class="two-col-grid">
+          <div class="info-card" style="border-left: 3px solid #0078d4;">
+            <div class="info-card-title">Regla 1: Inmutabilidad por Manifiesto</div>
+            <div class="info-card-content">
+              En producción, referencie siempre la imagen por su <strong>SHA-256 Digest</strong> y aplique <code>--write-enabled false</code> para impedir modificaciones accidentales.
+            </div>
+          </div>
+
+          <div class="info-card" style="border-left: 3px solid #16a34a;">
+            <div class="info-card-title">Regla 2: Sin Docker Local</div>
+            <div class="info-card-content">
+              Cuando los desarrolladores o runners CI/CD carezcan de Docker Daemon o permisos de root, la solución oficial es <strong>ACR Quick Tasks</strong> (<code>az acr build</code>).
+            </div>
+          </div>
+
+          <div class="info-card" style="border-left: 3px solid #7c3aed;">
+            <div class="info-card-title">Regla 3: Base Image Patching</div>
+            <div class="info-card-content">
+              ACR Tasks permite configurar <strong>Base Image Triggers</strong> para recompilar contenedores automáticamente cuando la imagen base de Python/Linux recibe parches de seguridad.
+            </div>
+          </div>
+
+          <div class="info-card" style="border-left: 3px solid #d97706;">
+            <div class="info-card-title">Regla 4: Optimización con acr purge</div>
+            <div class="info-card-content">
+              Configure tareas programadas con <code>acr purge --untagged --ago 7d</code> para eliminar imágenes huérfanas sin tag y mantener los costos de almacenamiento bajo control.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pie de página 6 -->
+    <div class="page-footer">
+      <span>AZURE AI-200 / AI-102 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
+      <span>PÁGINA 6 DE 7</span>
+    </div>
+  </div>
+
+
+  <!-- ==================== PÁGINA 7 ==================== -->
+  <div class="page">
+    <div class="page-content">
+      <div>
+        <div class="header-badge">AZURE AI-200 / AI-102 / AZ-204 • BANCO DE PREGUNTAS Y RESPUESTAS</div>
+        <h1 class="doc-title">Preguntas Oficiales de Examen de Certificación</h1>
+        <p class="doc-subtitle">Knowledge check oficial de Microsoft Learn (Slide 10 PPT) y escenarios de arquitectura con justificación técnica</p>
+        <div class="divider"></div>
+      </div>
+
+      <!-- Q1 Oficial PPT -->
+      <div class="qa-card">
+        <div class="qa-header">
+          <span class="qa-title">Pregunta 1: Entorno de Compilación Controlado (Oficial PPT Slide 10)</span>
+          <span class="qa-topic-tag">Quick Tasks</span>
+        </div>
+        <div class="qa-scenario">
+          El equipo crea imágenes de contenedor en estaciones de trabajo de desarrollador, lo que conduce a resultados incoherentes. Necesitas que todas las imágenes se integren en un entorno controlado en la nube sin depender del hardware local. ¿Qué característica de ACR aborda esto?
+        </div>
+        <div class="qa-options">
+          <div>A) Replicación geográfica del registro</div>
+          <div>B) Creación rápida de ACR Tasks (Quick Tasks con <code>az acr build</code>)</div>
+          <div>C) Espacios de nombres del repositorio</div>
+        </div>
+        <div class="qa-answer">
+          ✓ Respuesta Correcta: B) Creación rápida de ACR Tasks (Quick Tasks)
+        </div>
+        <div class="qa-rationale">
+          <strong>Justificación Oficial:</strong> Las tareas rápidas (Quick Tasks) ejecutan el proceso de construcción y push directamente en agentes efímeros y controlados de Azure, eliminando divergencias causadas por las versiones del daemon de Docker o dependencias locales de cada máquina de desarrollo.
+        </div>
+      </div>
+
+      <!-- Q2 Oficial PPT -->
+      <div class="qa-card">
+        <div class="qa-header">
+          <span class="qa-title">Pregunta 2: Consistencia Estricta en Producción (Oficial PPT Slide 10)</span>
+          <span class="qa-topic-tag">Digest SHA-256</span>
+        </div>
+        <div class="qa-scenario">
+          Debes implementar una imagen de contenedor en producción y asegurarte de que cada nodo ejecute exactamente la misma versión, incluso si alguien inserta una nueva imagen con la misma etiqueta. ¿Cómo debes hacer referencia a la imagen en el manifiesto de despliegue?
+        </div>
+        <div class="qa-options">
+          <div>A) Por la etiqueta <code>latest</code></div>
+          <div>B) Por hash de manifiesto (Resumen SHA-256 / Digest)</div>
+          <div>C) Por etiqueta de versión semántica (ej. <code>:v1.0.0</code>)</div>
+        </div>
+        <div class="qa-answer">
+          ✓ Respuesta Correcta: B) Por hash de manifiesto (Resumen SHA-256 / Digest)
+        </div>
+        <div class="qa-rationale">
+          <strong>Justificación Oficial:</strong> Las etiquetas son referencias mutables por definición en la especificación OCI. Para garantizar que cada nodo del clúster descargue el mismo binario exacto sin posibilidad de sobreescritura, se debe referenciar por el hash de manifiesto (<code>image@sha256:...</code>).
+        </div>
+      </div>
+
+      <!-- Q3 Inmutabilidad -->
+      <div class="qa-card">
+        <div class="qa-header">
+          <span class="qa-title">Pregunta 3: Gobernanza y Bloqueo de Imágenes en ACR</span>
+          <span class="qa-topic-tag">Gobernanza OCI</span>
+        </div>
+        <div class="qa-scenario">
+          En un registro de producción se desea bloquear la imagen <code>inference-api:v1.2.0</code> para impedir que los pipelines de CI/CD sobrescriban accidentalmente la etiqueta o eliminen el artefacto. ¿Qué comando ejecuta esta política?
+        </div>
+        <div class="qa-options">
+          <div>A) <code>az acr repository update --name myacr --image inference-api:v1.2.0 --write-enabled false</code></div>
+          <div>B) <code>az acr repository delete --name myacr --image inference-api:v1.2.0 --yes</code></div>
+          <div>C) Modificar el SKU del registro de Standard a Basic</div>
+        </div>
+        <div class="qa-answer">
+          ✓ Respuesta Correcta: A) az acr repository update --name myacr --image inference-api:v1.2.0 --write-enabled false
+        </div>
+        <div class="qa-rationale">
+          <strong>Justificación:</strong> El flag <code>--write-enabled false</code> bloquea la imagen contra sobreescritura y eliminación accidental, garantizando la inmutabilidad de la versión en el registro privado.
+        </div>
+      </div>
+
+      <!-- Q4 Parcheo Base Image -->
+      <div class="qa-card">
+        <div class="qa-header">
+          <span class="qa-title">Pregunta 4: Parcheo Automatizado de Vulnerabilidades en Imágenes Base</span>
+          <span class="qa-topic-tag">Base Image Triggers</span>
+        </div>
+        <div class="qa-scenario">
+          Se publica un parche de seguridad crítico (CVE) en la imagen base pública <code>python:3.11-slim</code>. Se requiere que todas las imágenes dependientes en ACR se reconstruyan automáticamente sin intervención manual ni pipelines externos. ¿Qué solución se debe implementar?
+        </div>
+        <div class="qa-options">
+          <div>A) Tareas cron periódicas en Azure Container Instances</div>
+          <div>B) ACR Tasks con desencadenador de imagen base (Base Image Update Trigger)</div>
+          <div>C) Webhooks de GitHub invocando un Azure Automation Runbook</div>
+        </div>
+        <div class="qa-answer">
+          ✓ Respuesta Correcta: B) ACR Tasks con desencadenador de imagen base (Base Image Update Trigger)
+        </div>
+        <div class="qa-rationale">
+          <strong>Justificación:</strong> ACR Tasks detecta de forma nativa cuándo una imagen base (en el propio ACR o en registros públicos como Docker Hub) recibe una actualización y recompila automáticamente las imágenes derivadas dependientes.
+        </div>
+      </div>
+
+      <!-- Q5 Nomenclatura -->
+      <div class="qa-card">
+        <div class="qa-header">
+          <span class="qa-title">Pregunta 5: Restricciones de Nomenclatura y DNS de Azure Container Registry</span>
+          <span class="qa-topic-tag">Arquitectura &amp; DNS</span>
+        </div>
+        <div class="qa-scenario">
+          Un administrador intenta aprovisionar un registro con el nombre <code>My_Prod_ACR_EastUS</code> mediante la CLI y recibe un error de validación. ¿Cuál es el requisito técnico de Azure que causó el fallo?
+        </div>
+        <div class="qa-options">
+          <div>A) Debe tener entre 5 y 50 caracteres alfanuméricos exclusivamente y ser único a nivel global en Azure.</div>
+          <div>B) El SKU Basic únicamente admite nombres que inicien con el prefijo "registry".</div>
+          <div>C) Los registros de contenedores requieren que el nombre coincida exactamente con el Resource Group.</div>
+        </div>
+        <div class="qa-answer">
+          ✓ Respuesta Correcta: A) Debe tener entre 5 y 50 caracteres alfanuméricos exclusivamente y ser único globalmente.
+        </div>
+        <div class="qa-rationale">
+          <strong>Justificación:</strong> Cada ACR genera un FQDN público resoluble por DNS (<code>&lt;nombre&gt;.azurecr.io</code>). Por diseño en Azure, el nombre solo permite números y letras (sin guiones bajos <code>_</code> ni mayúsculas) y debe ser único a nivel mundial.
+        </div>
+      </div>
+    </div>
+
+    <!-- Pie de página 7 -->
+    <div class="page-footer">
+      <span>AZURE AI-200 / AI-102 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
+      <span>PÁGINA 7 DE 7</span>
+    </div>
+  </div>
+
+</body>
+</html>
