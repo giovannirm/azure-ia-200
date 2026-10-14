@@ -622,6 +622,22 @@
             <strong>¿Por qué registrar el proveedor?:</strong> Las suscripciones de Azure requieren registrar explícitamente el espacio de nombres <code>Microsoft.ContainerRegistry</code> antes de poder aprovisionar registros y ejecutar tareas de compilación serverless.
           </div>
         </div>
+
+        <!-- Inspección y Gestión en Azure Portal -->
+        <div class="info-card" style="margin-top: 3px;">
+          <div class="info-card-title">Inspección y Gestión de Proveedores en Azure Portal (GUI)</div>
+          <div class="info-card-content">
+            <p><strong>Ubicación y Nivel de Ámbito:</strong> Los proveedores de recursos se configuran a nivel de <strong>Suscripción</strong> (no dentro de un Grupo de Recursos). Si el proveedor no está registrado, Azure Resource Manager (ARM) rechazará cualquier intento de aprovisionamiento.</p>
+            <p><strong>Paso a paso en Azure Portal:</strong></p>
+            <p><strong>1. Navegación:</strong> Busque <strong>Subscriptions</strong> (Suscripciones) en la barra superior y seleccione su suscripción activa.</p>
+            <p><strong>2. Menú de Configuración:</strong> En el panel izquierdo, bajo la categoría <strong>Settings</strong> (Configuración), seleccione <strong>Resource providers</strong> (Proveedores de recursos).</p>
+            <p><strong>3. Filtro y Búsqueda:</strong> En la barra de filtro escriba <code>Microsoft.ContainerRegistry</code>.</p>
+            <p><strong>4. Estados del Proveedor:</strong></p>
+            <p style="padding-left: 8px;">• <strong><code>Registered</code>:</strong> Habilitado. La suscripción puede crear ACRs y ejecutar tareas serverless.</p>
+            <p style="padding-left: 8px;">• <strong><code>NotRegistered</code>:</strong> Inactivo. Selecciónelo y haga clic en <strong>Register</strong> en la barra superior (o ejecute <code>az provider register</code>).</p>
+            <p style="padding-left: 8px;">• <strong><code>Registering</code>:</strong> En propagación en el plano de control (demora habitual: 1 a 3 minutos).</p>
+          </div>
+        </div>
       </div>
     </div>
 
