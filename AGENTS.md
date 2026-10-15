@@ -1,15 +1,17 @@
 # Azure AI-200 Workspace Guidelines & PDF Harness
 
-This repository hosts official course materials, labs, source code, and technical documentation for the Azure AI-200 curriculum.
+This repository hosts official course materials, labs, source code, and technical documentation for the Azure AI-200 curriculum (**Microsoft Certified: Azure AI Cloud Developer Associate**).
 
 ## Mandatory PDF & Lab Guide Architecture Rules
 When generating, updating, or formatting HTML and PDF guides in this workspace:
-1. **Curriculum Enumeration & Directory Structure:** All guides MUST be organized inside `PDFs/<N>/<N>. <Topic Name>.html` and `PDFs/<N>/<N>. <Topic Name>.pdf`, where `<N>` matches the curriculum lesson index (`OBSIDIAN/LESSON <N>/`, `videos/<N>. <Topic>.mp4`, `CODE/<N>. <Project>/`, PPTs). Never save documents directly into root `PDFs/`.
-2. **Universal Execution Context:** Never include ephemeral lab VM credentials (`Admin`, `Pa55w.rd`) or VM UI navigation. Use general prerequisites (Azure CLI, Python, RBAC) and emphasize cloud-native workflows (e.g. serverless builds with zero local Docker daemon).
-3. **Command Anatomy & Explanations:** Provide detailed breakdowns of all Azure CLI commands (`az <service> <subgroup> <action>`), explaining flags (`--resource-group`, `--name`, `--registry`, `--image`, `--output`, `--query`), and noting PowerShell (`` ` ``) vs Bash (`\`) syntax.
-4. **Exhaustive Code Dissection:** Analyze all project scripts (`azdeploy.py`, `Dockerfile`, `app.py`) line by line, explaining architectural decisions (SHA-1 hashing for global DNS uniqueness, slim base images, `--no-cache-dir`, `/health` probes).
-5. **Certification Exam Q&A Bank:** Include official exam-style questions (AI-200 / AI-102 / AZ-204) with detailed rationales for correct answers and distractors.
-6. **Physical Page Budgeting:** Adhere strictly to A4 layout constraints (`.page { width: 210mm; height: 297mm; max-height: 297mm; overflow: hidden; }`) with `PÁGINA X DE N` footers and zero clipping.
-7. **Verification Gate:** Compile with Google Chrome headless and verify page count and layout using the harness script:
-   `./.agents/skills/azure-pdf-publisher/scripts/compile-pdf.sh "PDFs/<N>/<N>. <Topic Name>.html"`
-
+1. **Curriculum Enumeration & Directory Structure:** All guides MUST be organized inside `PDFs/<N>/<N>. <Topic Name>.html` and `PDFs/<N>/<N>. <Topic Name>.pdf`, where `<N>` matches the curriculum lesson index (`OBSIDIAN/LESSON <N>/`, `videos/<N>. <Topic>.webloc` / `.url`, `CODE/<N>. <Project>/`, PPTs). Never save documents directly into root `PDFs/`.
+2. **Official Microsoft Learn Alignment:** Every guide must display the official banner linking to **Curso AI-200T00-A**, certification exam **AI-200**, the specific evaluated exam domain & weighting, and the official [Microsoft Learn Study Guide](https://learn.microsoft.com/es-es/credentials/certifications/resources/study-guides/ai-200).
+3. **Universal Execution Context:** Never include ephemeral lab VM credentials (`Admin`, `Pa55w.rd`) or VM UI navigation. Use general prerequisites (Azure CLI 2.50+, Python 3.10+, RBAC) and emphasize cloud-native workflows (e.g. serverless builds with zero local Docker daemon).
+4. **Command Anatomy & Dual-Execution (CLI + Portal GUI):** Provide detailed breakdowns of all Azure CLI commands (`az <service> <subgroup> <action>`), explaining flags (`--resource-group`, `--name`, `--registry`, `--image`, `--output`, `--query`), noting PowerShell (`` ` ``) vs Bash (`\`) syntax, and accompanying each phase with a step-by-step Azure Portal GUI walkthrough.
+5. **Dual Architecture Blueprints with Official Azure Icons:** Include two dedicated pages: (1) **Diagrama de Arquitectura Lógica** with business problem context, logical tiers, and Draw.io style canvas; and (2) **Diagrama de Arquitectura Física y Red** detailing TLS 1.3, Private Endpoints, Data Endpoints, and Entra ID tokens. **NEVER invent or draw fake icons; use official Azure SVGs.**
+6. **Exhaustive Code Dissection:** Analyze all project scripts (`azdeploy.py`, `Dockerfile`, `app.py`) line by line, explaining architectural decisions (SHA-1 hashing for global DNS uniqueness, slim base images, `--no-cache-dir`, `/health` probes).
+7. **Certification Exam Q&A Bank & Skills Matrix:** Include the official 4-domain exam weighting matrix from the AI-200 Study Guide and official scenario-based questions with comprehensive rationales for correct answers and distractors.
+8. **Mandatory Final Page (Glossary, Acronyms & 9-Module Roadmap):** Every guide must conclude with: (1) Conceptos Arquitectónicos Centrales, (2) Diccionario de Siglas y Acrónimos (2-column table), and (3) Mapa Curricular y Rutas de Aprendizaje Oficiales del Curso AI-200T00-A (9 módulos en 3 fases).
+9. **Physical Page Budgeting:** Adhere strictly to A4 layout constraints (`.page { width: 210mm; height: 297mm; max-height: 297mm; overflow: hidden; padding: 7mm 12mm 5mm 12mm; }`) with `PÁGINA X DE N` footers and zero clipping.
+10. **Verification Gate:** Compile with Google Chrome headless and visually verify thumbnails using the harness script:
+    `./.agents/skills/azure-pdf-publisher/scripts/compile-pdf.sh "PDFs/<N>/<N>. <Topic Name>.html"`
