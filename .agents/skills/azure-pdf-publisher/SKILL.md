@@ -59,7 +59,7 @@ Every guide must contain two dedicated architecture pages:
 1. **Diagrama de Arquitectura Lógica (Página dedicada):**
    - Real-world business problem statement and workflow description.
    - Draw.io style canvas layout with logical tiers (Estación de Desarrollo, Cómputo Serverless, Registro OCI, Consumidores Downstream, Gobernanza & Seguridad).
-   - **MANDATORY:** Use official Azure vector SVG icons (downloaded or embedded via base64/inline SVG). **Never invent or draw fake icons.**
+   - **MANDATORY:** Use official Azure vector SVG icons sourced from the centralized directory `PDFs/assets/icons/`. Embed them into HTML via base64 data URIs or inline SVGs. **Never duplicate `assets/` in individual lesson directories, and never invent fake icons.**
 2. **Diagrama de Arquitectura Física y Topología de Red (Página dedicada):**
    - Network boundaries (Public Internet vs Virtual Network VNet).
    - Encryption in transit (HTTPS / TLS 1.3) and at rest (AES-256 MMK or CMK/BYOK).

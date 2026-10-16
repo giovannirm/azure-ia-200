@@ -28,6 +28,8 @@ All printable documents and compiled artifacts in `PDFs/` MUST strictly mirror t
 
 ```text
 PDFs/
+├── assets/
+│   └── icons/              <-- Shared official Azure SVG vector icons
 ├── 1/
 │   ├── 1. Azure CLI y ACR Tasks.html
 │   └── 1. Azure CLI y ACR Tasks.pdf
@@ -91,7 +93,7 @@ Every guide must include **two distinct, dedicated architecture blueprint pages*
    - *Caso de Uso y Problemática Empresarial:* Real-world business problem (e.g., fragmented builds across developer machines, security vulnerabilities, lack of auditing).
    - *Flujo Lógico:* Step-by-step data and instruction flow from developer commit to serverless build, container storage, and deployment.
    - *Canvas de Arquitectura:* Draw.io style layout featuring clear visual zones (Estación de Desarrollo, Servicio Administrado en la Nube, Consumidores Downstream, Gobernanza & Seguridad).
-   - *Iconografía Oficial:* **Mandatory use of official Azure SVG vector icons** (Azure CLI, Container Registries, Tasks, Container Apps, Kubernetes Service, App Service, Key Vault, Monitor). **NEVER invent or draw generic/fake icons.** Embed icons cleanly via base64 data URIs or inline SVG.
+   - *Iconografía Oficial:* **Mandatory use of official Azure SVG vector icons** sourced from the centralized repository `PDFs/assets/icons/`. **NEVER duplicate assets inside individual lesson directories, and NEVER invent or draw generic/fake icons.** Embed icons cleanly via base64 data URIs or inline SVG.
 2. **Diagrama de Arquitectura Física y Topología de Red (Página dedicada):**
    - *Frontera de Red y Seguridad Perimetral:* Isolation boundaries, Public Internet vs Virtual Network (VNet).
    - *Canal Cifrado:* HTTPS over TLS 1.3 for tarball upload and OCI layer transit.

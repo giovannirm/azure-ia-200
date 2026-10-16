@@ -15,3 +15,4 @@ When generating, updating, or formatting HTML and PDF guides in this workspace:
 9. **Physical Page Budgeting:** Adhere strictly to A4 layout constraints (`.page { width: 210mm; height: 297mm; max-height: 297mm; overflow: hidden; padding: 7mm 12mm 5mm 12mm; }`) with `PÁGINA X DE N` footers and zero clipping.
 10. **Verification Gate:** Compile with Google Chrome headless and visually verify thumbnails using the harness script:
     `./.agents/skills/azure-pdf-publisher/scripts/compile-pdf.sh "PDFs/<N>/<N>. <Topic Name>.html"`
+11. **Centralized Shared Assets:** All official Azure vector SVG icons and shared graphic resources MUST be stored centrally in `PDFs/assets/icons/`. Never create or duplicate `assets/` folders inside individual lesson directories (`PDFs/<N>/assets/`). HTML guides must embed icons as base64 data URIs or inline SVGs so documents remain 100% self-contained and portable.

@@ -1,2 +1,12 @@
+# =============================================================================
+# [EN] Core Production Dependencies for Document Processing Microservice
+# [ES] Dependencias Principales de Producción para el Microservicio de Procesamiento
+# =============================================================================
+
+# [EN] Lightweight web framework for RESTful API routing and JSON response handling
+# [ES] Framework web ligero para enrutamiento de API REST y manejo de respuestas JSON
 flask==3.0.0
+
+# [EN] Production-grade WSGI HTTP Server with pre-fork worker model for concurrency
+# [ES] Servidor HTTP WSGI para producción con modelo pre-fork de workers para concurrencia
 gunicorn==22.0.0
