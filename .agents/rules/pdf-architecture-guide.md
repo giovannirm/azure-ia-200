@@ -19,6 +19,8 @@ Every technical guide in this repository is an enterprise-grade learning asset. 
 8. **Normative Technical Glossary, Acronym Dictionary & 9-Module Roadmap:** Mandatory concluding page with architectural concepts, 2-column acronym dictionary, and the complete 9-module curriculum learning path.
 9. **Physical Page Budgeting & Zero-Clipping Layout:** Exact A4 dimensions with `PÁGINA X DE N` footers and strict vertical containment.
 10. **Automated Compilation & Visual Verification Gate:** Headless Chrome compilation and Swift/PDFKit thumbnail inspection before delivery.
+11. **Centralized Shared Assets:** All official Azure vector SVG icons and shared graphic resources MUST be stored centrally in `PDFs/assets/icons/`. Never create or duplicate `assets/` folders inside individual lesson directories (`PDFs/<N>/assets/`). HTML guides must embed icons as base64 data URIs or inline SVGs so documents remain 100% self-contained and portable.
+12. **Indented Enumerations & Visual Scannability (No Consolidated Lists):** When presenting enumerated information (steps, parameters, sub-items, key-value mappings, or structured lists), NEVER consolidate or collapse multiple items into a single continuous text line or paragraph. Always format enumerated items as dedicated, visually indented lines or nested sub-lists (using separate bullet/number tags, CSS indentation, or line breaks) to guarantee high visual clarity, didactic scannability, and immediate comprehension.
 
 ---
 
@@ -207,6 +209,7 @@ body {
 1. **Exact Page Budget:** Determine total pages $N$ before authoring. Every page must display `PÁGINA X DE N`.
 2. **Zero Overflow / Zero Clipping:** Elements must never cross the 297mm vertical threshold. Adjust typography size (`7.5px` to `8.5px` for cards) and padding (`3px` to `5px`) to fit cleanly.
 3. **No Phantom Pages:** Never let trailing empty elements or large margins create an extra blank page.
+4. **Indented Enumerations & Visual Scannability:** Never inline or consolidate multiple steps or enumerated elements into a single running paragraph. Always use dedicated, indented items (`margin-left: 5px` to `8px` or nested list elements) so each item is immediately readable and scannable.
 
 ---
 

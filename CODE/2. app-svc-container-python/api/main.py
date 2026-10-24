@@ -81,9 +81,13 @@ def ensure_storage_directory() -> bool:
     [ES] Asegura que la ruta de almacenamiento persistente exista en el sistema de archivos montado.
     """
     try:
+        # [EN] Create directory recursively (parents=True); succeed silently if directory already exists
+        # [ES] Crea el directorio de forma recursiva; no genera error si la carpeta ya existe
         os.makedirs(STORAGE_PATH, exist_ok=True)
         return True
     except Exception as e:
+        # [EN] Log warning if storage path is inaccessible (e.g. read-only mount or permission denied)
+        # [ES] Registra advertencia si la ruta es inaccesible (ej. montaje de solo lectura o sin permisos)
         logger.warning(f"Could not create storage directory '{STORAGE_PATH}': {e}")
         return False
 
@@ -105,7 +109,12 @@ def root():
     [EN] Returns service status, version, and active runtime configuration.
     [ES] Retorna el estado del servicio, versión y configuración activa en tiempo de ejecución.
     """
+    # [EN] Log incoming request for service catalog discovery
+    # [ES] Registra la solicitud entrante para descubrimiento del catálogo del servicio
     logger.info("Service catalog requested from root endpoint")
+
+    # [EN] Return JSON payload with service metadata and active configuration values
+    # [ES] Retorna payload JSON con metadatos del servicio y valores de configuración activa
     return jsonify(
         {
             "service": "Document Processing API",
@@ -136,6 +145,8 @@ def health():
     [EN] Fast, lightweight liveness probe for Azure App Service routing.
     [ES] Sondeo de disponibilidad rápido y ligero para el enrutamiento de Azure App Service.
     """
+    # [EN] Fast response: return HTTP 200 with healthy status for orchestrator probes
+    # [ES] Respuesta rápida: retorna HTTP 200 con estado healthy para sondeos del orquestador
     return jsonify({"status": "healthy"})
 
 
@@ -165,10 +176,14 @@ def process_document():
     # [EN] 2. Extract document content based on incoming Content-Type
     # [ES] 2. Extrae el contenido del documento según el encabezado Content-Type recibido
     if request.is_json:
+        # [EN] Handle application/json payload with JSON body parameters
+        # [ES] Procesa payload application/json con parámetros en el cuerpo JSON
         data = request.get_json()
         content = data.get("content", "")
         filename = data.get("filename", "document.txt")
     elif request.files:
+        # [EN] Handle multipart/form-data payload with uploaded binary/text file
+        # [ES] Procesa payload multipart/form-data con archivo binario/texto subido
         file = request.files.get("file")
         if file:
             content = file.read().decode("utf-8", errors="ignore")
@@ -176,6 +191,8 @@ def process_document():
         else:
             return jsonify({"error": "No file provided in multipart request"}), 400
     else:
+        # [EN] Handle raw text/plain or fallback raw stream payload
+        # [ES] Procesa texto plano raw text/plain o flujo de datos sin formato
         content = request.data.decode("utf-8", errors="ignore") or "Sample document"
         filename = "document.txt"
 
@@ -256,15 +273,23 @@ def process_document():
     storage_available = ensure_storage_directory()
     if storage_available:
         try:
+            # [EN] Construct absolute output file path: <STORAGE_PATH>/<doc_id>.json
+            # [ES] Construye la ruta absoluta del archivo de salida: <STORAGE_PATH>/<doc_id>.json
             result_path = os.path.join(STORAGE_PATH, f"{doc_id}.json")
+            # [EN] Write structured JSON output with UTF-8 encoding
+            # [ES] Escribe la salida estructurada en formato JSON con codificación UTF-8
             with open(result_path, "w", encoding="utf-8") as f:
                 json.dump(result, f, indent=2, ensure_ascii=False)
             result["storage"] = {"saved": True, "path": result_path}
             logger.info(f"Result successfully persisted to: {result_path}")
         except Exception as e:
+            # [EN] Log error if file write fails (e.g. disk quota or permissions)
+            # [ES] Registra error si falla la escritura (ej. cuota de disco o permisos)
             logger.error(f"Failed to persist result to disk: {e}")
             result["storage"] = {"saved": False, "error": str(e)}
     else:
+        # [EN] Persistent storage volume unavailable; record status in response
+        # [ES] Volumen de almacenamiento persistente no disponible; registra estado en la respuesta
         result["storage"] = {"saved": False, "reason": "Persistent storage unavailable"}
 
     logger.info(f"Document processing completed successfully: {doc_id}")
@@ -285,15 +310,21 @@ def list_documents():
     """
     logger.info("Listing processed documents from storage directory")
 
+    # [EN] 1. Verify storage directory availability before directory scan
+    # [ES] 1. Verifica disponibilidad del directorio de almacenamiento antes de explorarlo
     if not ensure_storage_directory():
         return jsonify({"documents": [], "error": "Storage directory unavailable"}), 500
 
     try:
         files = []
+        # [EN] 2. Scan storage directory for persisted JSON analysis artifacts
+        # [ES] 2. Escanea el directorio de almacenamiento buscando artefactos JSON persistidos
         for filename in os.listdir(STORAGE_PATH):
             if filename.endswith(".json"):
                 filepath = os.path.join(STORAGE_PATH, filename)
                 stat = os.stat(filepath)
+                # [EN] Extract metadata: document ID, byte size, and creation timestamp
+                # [ES] Extrae metadatos: ID de documento, tamaño en bytes y fecha de creación
                 files.append(
                     {
                         "document_id": filename.replace(".json", ""),
@@ -303,8 +334,12 @@ def list_documents():
                         ).isoformat(),
                     }
                 )
+        # [EN] 3. Return catalog list and total document count
+        # [ES] 3. Retorna la lista del catálogo y el conteo total de documentos
         return jsonify({"documents": files, "count": len(files)})
     except Exception as e:
+        # [EN] Handle disk I/O errors during directory listing
+        # [ES] Gestiona errores de E/S en disco durante el listado del directorio
         logger.error(f"Failed to list documents in '{STORAGE_PATH}': {e}")
         return jsonify({"documents": [], "error": str(e)}), 500
 
@@ -321,18 +356,24 @@ def get_document(doc_id):
     """
     logger.info(f"Retrieving document by ID: {doc_id}")
 
+    # [EN] Construct expected file path: <STORAGE_PATH>/<doc_id>.json
+    # [ES] Construye la ruta esperada del archivo: <STORAGE_PATH>/<doc_id>.json
     filepath = os.path.join(STORAGE_PATH, f"{doc_id}.json")
 
-    # [EN] Guard: verify file exists before attempting read
-    # [ES] Validación: verifica existencia del archivo antes de intentar lectura
+    # [EN] 1. Guard: verify file exists before attempting read
+    # [ES] 1. Validación: verifica existencia del archivo antes de intentar lectura
     if not os.path.exists(filepath):
         logger.warning(f"Document ID '{doc_id}' not found at '{filepath}'")
         return jsonify({"error": f"Document '{doc_id}' not found"}), 404
 
     try:
+        # [EN] 2. Read and parse persistent JSON artifact from disk
+        # [ES] 2. Lee y parsea el artefacto JSON persistente desde el disco
         with open(filepath, "r", encoding="utf-8") as f:
             return jsonify(json.load(f))
     except Exception as e:
+        # [EN] Handle file reading or JSON deserialization errors
+        # [ES] Gestiona errores de lectura de archivo o deserialización JSON
         logger.error(f"Failed to read document '{filepath}': {e}")
         return jsonify({"error": str(e)}), 500
 
@@ -344,6 +385,8 @@ def get_document(doc_id):
 #      En producción, Gunicorn invoca 'main:app' directamente mediante CMD en Dockerfile.
 # =============================================================================
 if __name__ == "__main__":
+    # [EN] Log startup messages with current environment mode and configured limits
+    # [ES] Registra mensajes de arranque con el modo de entorno y límites configurados
     logger.info(f"Starting Document Processing API in '{ENVIRONMENT}' mode")
     logger.info(f"Configuration: MAX_SIZE={MAX_DOCUMENT_SIZE_MB}MB, TIMEOUT={PROCESSING_TIMEOUT_SECONDS}s")
 
@@ -354,4 +397,7 @@ if __name__ == "__main__":
     # [EN] Bind to port from environment (defaults to 80 for container compatibility)
     # [ES] Enlaza al puerto de la variable de entorno (por defecto 80 para contenedores)
     port = int(os.getenv("PORT", "80"))
+
+    # [EN] Listen on all network interfaces (0.0.0.0) so external traffic can reach container
+    # [ES] Escucha en todas las interfaces de red (0.0.0.0) para que el tráfico externo alcance el contenedor
     app.run(host="0.0.0.0", port=port)

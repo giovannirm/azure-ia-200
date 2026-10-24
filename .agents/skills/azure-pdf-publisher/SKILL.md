@@ -49,10 +49,12 @@ Every technical PDF guide MUST include the following 8 structural pillars:
 - Explain the hierarchy pattern: `az <service> <subgroup> <action> [--parameters]`.
 - Provide an exhaustive reference table explaining all flags used (`--resource-group`, `--name`, `--registry`, `--image`, `--output`, `--query`, `--no-wait`, etc.) with technical purposes and practical examples.
 
-### Pillar 4: Dual Verification Flow (CLI + Azure Portal GUI Walkthrough)
-- For every practical phase, provide:
-  1. Automated Azure CLI commands with output formats (`table`, `json`, `tsv`).
-  2. Step-by-step Azure Portal GUI walkthrough (Navigation bar -> Resource blade -> Menu settings -> Verification tabs).
+### Pillar 4: Dual Provisioning & Visual Parity (CLI + Azure Portal GUI Walkthrough)
+- Every practical phase, infrastructure resource, identity assignment, or configuration provisioned via terminal (Azure CLI, PowerShell, Bash, Python scripts) MUST have a corresponding, deeply detailed, and visual step-by-step walkthrough in Azure Portal:
+  1. Automated Azure CLI commands with command anatomy, flags breakdown, and output format (`table`, `json`, `tsv`).
+  2. Step-by-step Azure Portal GUI walkthrough with breadcrumbs (`Azure Portal > [Service] > + Create`), visual wizard tab badges (`[ Basics ] [ Hosting / Container ] [ Networking ] [ Monitoring ] [ Tags ] [ Review + Create ]`), and parameter mapping tables (*Field / Label*, *Value / Selection*, and *Architectural Rationale*).
+  3. Post-provisioning inspection and verification blades (`Overview`, `Configuration`, `Deployment Center`, `Identity`, `Metrics / Log Stream`).
+  4. Dedicated visual comparison page (`Azure Portal (GUI) vs. Azure CLI`) analyzing wizard tabs and options for the primary cloud resources in the lesson.
 
 ### Pillar 5: Dual Architecture Blueprints with Official Azure Icons
 Every guide must contain two dedicated architecture pages:
@@ -146,6 +148,7 @@ body {
 
 - Every page must feature the standard footer: `PÁGINA X DE N`.
 - Zero vertical overflow: Ensure all content strictly fits within 297mm without spilling over.
+- **Indented Enumerations & Visual Scannability:** When presenting enumerated information (steps, parameters, sub-items, key-value mappings, or lists), NEVER consolidate or collapse multiple items into a single continuous text line or paragraph. Always format enumerated items as dedicated, visually indented lines or nested sub-lists (using separate bullet/number tags, CSS indentation, or line breaks) to guarantee high visual clarity, didactic scannability, and immediate comprehension.
 
 ---
 
