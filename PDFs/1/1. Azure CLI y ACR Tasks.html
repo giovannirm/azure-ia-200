@@ -323,6 +323,61 @@
     .badge-green  { background-color: #16a34a; }
     .badge-indigo { background-color: #4f46e5; }
 
+    /* Estilos visuales de Azure Portal */
+    .portal-breadcrumb {
+      font-size: 7.4px;
+      font-weight: 700;
+      color: #0369a1;
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      padding: 2px 6px;
+      border-radius: 3px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3.5px;
+      margin-bottom: 2.5px;
+    }
+    .portal-breadcrumb span { color: #0f172a; font-weight: 600; }
+
+    .portal-tabs {
+      display: flex;
+      gap: 3px;
+      border-bottom: 1.5px solid #cbd5e1;
+      margin-bottom: 3.5px;
+      padding-bottom: 1px;
+      font-size: 7.1px;
+    }
+
+    .portal-tab {
+      padding: 1.5px 5px;
+      border-radius: 3px 3px 0 0;
+      color: #64748b;
+      font-weight: 600;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-bottom: none;
+    }
+
+    .portal-tab.active {
+      color: #0078d4;
+      font-weight: 700;
+      background: #ffffff;
+      border-color: #cbd5e1;
+      border-top: 2px solid #0078d4;
+    }
+
+    .portal-switch-on {
+      display: inline-flex;
+      align-items: center;
+      background: #0078d4;
+      color: #ffffff;
+      font-size: 6.8px;
+      font-weight: 700;
+      padding: 0.5px 4.5px;
+      border-radius: 6px;
+      letter-spacing: 0.2px;
+    }
+
     .task-description {
       font-size: 8.6px;
       color: #475569;
@@ -592,7 +647,7 @@
   <div class="page">
     <div class="page-content">
       <div>
-        <div class="header-badge">AZURE AI-200 / AI-102 • GUÍA GENERAL DE LABORATORIO Y ARQUITECTURA</div>
+        <div class="header-badge">AZURE AI-200 • GUÍA GENERAL DE LABORATORIO Y ARQUITECTURA</div>
         <h1 class="doc-title">Módulo 01: Build and Run Container Images with ACR Tasks</h1>
         <p class="doc-subtitle">Fundamentos de Azure CLI, ciclo de vida serverless OCI y gobernanza en Azure Container Registry</p>
         <div class="divider"></div>
@@ -724,16 +779,18 @@
         <!-- Inspección y Gestión en Azure Portal -->
         <div class="info-card" style="margin-top: 3px;">
           <div class="info-card-title"><svg class="svc-icon" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.5 2a3.5 3.5 0 00-3.2 2.1L2.5 11v4.5H7l1.5-1.5 1 1 1.5-1.5-1-1 1.5-1.5-1-1 2-2a3.5 3.5 0 100-7zm0 2a1.5 1.5 0 110 3 1.5 1.5 0 010-3z" fill="#EAA300"/></svg> Inspección y Gestión de Proveedores en Azure Portal (GUI)</div>
-          <div class="info-card-content">
-            <p><strong>Ubicación y Nivel de Ámbito:</strong> Los proveedores de recursos se configuran a nivel de <strong>Suscripción</strong> (no dentro de un Grupo de Recursos). Si el proveedor no está registrado, Azure Resource Manager (ARM) rechazará cualquier intento de aprovisionamiento.</p>
-            <p><strong>Paso a paso en Azure Portal:</strong></p>
-            <p><strong>1. Navegación:</strong> Busque <strong>Subscriptions</strong> (Suscripciones) en la barra superior y seleccione su suscripción activa.</p>
-            <p><strong>2. Menú de Configuración:</strong> En el panel izquierdo, bajo la categoría <strong>Settings</strong> (Configuración), seleccione <strong>Resource providers</strong> (Proveedores de recursos).</p>
-            <p><strong>3. Filtro y Búsqueda:</strong> En la barra de filtro escriba <code>Microsoft.ContainerRegistry</code>.</p>
-            <p><strong>4. Estados del Proveedor:</strong></p>
-            <p style="padding-left: 8px;">• <strong><code>Registered</code>:</strong> Habilitado. La suscripción puede crear ACRs y ejecutar tareas serverless.</p>
-            <p style="padding-left: 8px;">• <strong><code>NotRegistered</code>:</strong> Inactivo. Selecciónelo y haga clic en <strong>Register</strong> en la barra superior (o ejecute <code>az provider register</code>).</p>
-            <p style="padding-left: 8px;">• <strong><code>Registering</code>:</strong> En propagación en el plano de control (demora habitual: 1 a 3 minutos).</p>
+          <div class="portal-breadcrumb">
+            Azure Portal <span>›</span> Subscriptions <span>›</span> &lt;subscription&gt; <span>›</span> Settings <span>›</span> <strong>Resource providers</strong>
+          </div>
+          <div class="info-card-content" style="font-size: 7.0px; line-height: 1.22;">
+            <p style="margin-bottom: 1.5px;">• <strong>Ámbito y Autorización:</strong> Los proveedores se registran a nivel de <strong>Suscripción</strong> (no dentro de un Resource Group). Sin este registro, ARM rechaza cualquier creación de registros de contenedores.</p>
+            <p style="margin-bottom: 1px;">• <strong>Paso a Paso en Azure Portal:</strong></p>
+            <p style="margin-left: 6px; margin-bottom: 1px;">1. Busque <strong>Subscriptions</strong> en la barra superior y seleccione su suscripción activa.</p>
+            <p style="margin-left: 6px; margin-bottom: 1px;">2. En el panel izquierdo › sección <strong>Settings</strong> › seleccione <strong>Resource providers</strong>.</p>
+            <p style="margin-left: 6px; margin-bottom: 1px;">3. En el filtro escriba <code>Microsoft.ContainerRegistry</code> y verifique el estado:</p>
+            <p style="margin-left: 12px; margin-bottom: 0.5px;">- <strong><code>Registered</code>:</strong> Habilitado. Permite crear registros y ejecutar ACR Tasks.</p>
+            <p style="margin-left: 12px; margin-bottom: 0.5px;">- <strong><code>NotRegistered</code>:</strong> Inactivo. Selecciónelo y pulse <strong>Register</strong> en la barra superior.</p>
+            <p style="margin-left: 12px;">- <strong><code>Registering</code>:</strong> En propagación en el plano de control (demora de 1 a 3 minutos).</p>
           </div>
         </div>
       </div>
@@ -741,7 +798,7 @@
 
     <!-- Pie de página 1 -->
     <div class="page-footer">
-      <span>AZURE AI-200 / AI-102 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
+      <span>AZURE AI-200 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
       <span>PÁGINA 1 DE 11</span>
     </div>
   </div>
@@ -751,7 +808,7 @@
   <div class="page">
     <div class="page-content">
       <div>
-        <div class="header-badge">AZURE AI-200 / AI-102 • ANATOMÍA DE SCRIPTS Y CÓDIGO FUENTE</div>
+        <div class="header-badge">AZURE AI-200 • ANATOMÍA DE SCRIPTS Y CÓDIGO FUENTE</div>
         <h1 class="doc-title">Desglose Técnico del Código del Laboratorio</h1>
         <p class="doc-subtitle">Análisis arquitectónico de azdeploy.py, Dockerfile y la API de inferencia Flask (CODE/1. acr-tasks-python)</p>
         <div class="divider"></div>
@@ -845,7 +902,7 @@
 
     <!-- Pie de página 2 -->
     <div class="page-footer">
-      <span>AZURE AI-200 / AI-102 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
+      <span>AZURE AI-200 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
       <span>PÁGINA 2 DE 11</span>
     </div>
   </div>
@@ -855,7 +912,7 @@
   <div class="page">
     <div class="page-content">
       <div>
-        <div class="header-badge">AZURE AI-200 / AI-102 • APROVISIONAMIENTO Y GOBERNANZA DE RECURSOS</div>
+        <div class="header-badge">AZURE AI-200 • APROVISIONAMIENTO Y GOBERNANZA DE RECURSOS</div>
         <h1 class="doc-title">Creación de ACR: Azure Portal (GUI) vs. Azure CLI</h1>
         <p class="doc-subtitle">Análisis técnico de opciones del asistente: Basics, Redes, Cifrado CMK, Permisos ABAC y Comandos CLI</p>
         <div class="divider"></div>
@@ -864,31 +921,50 @@
       <!-- Sección 1: Pestaña Basics -->
       <div class="section-group">
         <div class="section-heading">1. Pestaña "Basics": Dimensionamiento, Disponibilidad y Modelo de Permisos</div>
+        <div class="portal-breadcrumb">
+          Azure Portal <span>›</span> Container registries <span>›</span> <strong>+ Create</strong>
+        </div>
+        <div class="portal-tabs">
+          <span class="portal-tab active">Basics</span>
+          <span class="portal-tab">Networking</span>
+          <span class="portal-tab">Encryption</span>
+          <span class="portal-tab">Tags</span>
+          <span class="portal-tab">Review + create</span>
+        </div>
         <div class="three-col-grid">
           <div class="info-card">
             <div class="info-card-title"><svg class="svc-icon" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 1.5L2 5.5v7l7 4 7-4v-7L9 1.5z" fill="#0078D4"/><path d="M9 1.5l7 4-7 4-7-4 7-4z" fill="#50E6FF" opacity="0.85"/><path d="M2 5.5l7 4v7l-7-4v-7z" fill="#005BA1"/><path d="M16 5.5l-7 4v7l7-4v-7z" fill="#0078D4"/><path d="M6.5 8.2l2.5 1.4 2.5-1.4v2.8l-2.5 1.4-2.5-1.4V8.2z" fill="#ffffff"/></svg> Identidad, DNS y Zonas</div>
-            <div class="info-card-content">
-              <p>• <strong>Nombre del Registro:</strong> FQDN global <code>&lt;name&gt;.azurecr.io</code> (5-50 caracteres alfanuméricos en minúsculas sin guiones).</p>
-              <p>• <strong>Location (Región):</strong> Región de residencia de datos. Debe alinearse con el cómputo (AKS/ACA) para evitar latencia y costo de egreso.</p>
-              <p>• <strong>Domain name label scope:</strong> Mitigación de <em>subdomain takeover</em> (dangling DNS) si se elimina el registro. Opciones: <code>SubscriptionReuse</code>, <code>TenantReuse</code>, <code>ResourceGroupReuse</code>, <code>NoReuse</code> o <code>Unsecure</code>.</p>
-              <p>• <strong>Availability Zones:</strong> Distribuye el registro en 3 zonas físicas aisladas en la región (SLA 99.99%). Requiere SKU <code>Premium</code>.</p>
+            <div class="info-card-content" style="font-size: 7.0px; line-height: 1.22;">
+              <p style="margin-bottom: 1.5px;">• <strong>Nombre del Registro (FQDN Global):</strong></p>
+              <p style="margin-left: 6px; margin-bottom: 2px;">- <code>&lt;name&gt;.azurecr.io</code> (5-50 caracteres alfanuméricos, único a nivel mundial).</p>
+              <p style="margin-bottom: 1.5px;">• <strong>Location (Región de Residencia):</strong></p>
+              <p style="margin-left: 6px; margin-bottom: 2px;">- Co-ubicado con el cómputo (AKS/ACA) para latencia sub-ms y costo de egreso cero.</p>
+              <p style="margin-bottom: 1.5px;">• <strong>Domain Name Label Scope:</strong></p>
+              <p style="margin-left: 6px; margin-bottom: 2px;">- Mitigación de <em>dangling DNS</em>: <code>SubscriptionReuse</code> o <code>TenantReuse</code>.</p>
+              <p style="margin-bottom: 1.5px;">• <strong>Availability Zones:</strong></p>
+              <p style="margin-left: 6px;">- Distribuye el registro en 3 zonas físicas aisladas (SLA 99.99%; SKU Premium).</p>
             </div>
           </div>
 
           <div class="info-card">
             <div class="info-card-title">Tiers de Servicio (SKU)</div>
-            <div class="info-card-content">
-              <p>• <strong>Basic:</strong> 10 GB almacenamiento, 2 webhooks. Diseñado para desarrollo, aprendizaje y pruebas de concepto.</p>
-              <p>• <strong>Standard:</strong> 100 GB, mayor tasa de operaciones por minuto. Ideal para producción media con pipelines CI/CD.</p>
-              <p>• <strong>Premium:</strong> 500 GB, <strong>Geo-replicación</strong> multi-región, Private Endpoints, Customer-Managed Keys (CMK) y Zonas.</p>
+            <div class="info-card-content" style="font-size: 7.0px; line-height: 1.22;">
+              <p style="margin-bottom: 1.5px;">• <strong>Basic (Desarrollo &amp; PoC):</strong></p>
+              <p style="margin-left: 6px; margin-bottom: 2px;">- 10 GB almacenamiento, 2 webhooks. Nivel base sin Private Link ni Zonas.</p>
+              <p style="margin-bottom: 1.5px;">• <strong>Standard (Producción Media):</strong></p>
+              <p style="margin-left: 6px; margin-bottom: 2px;">- 100 GB, 10 webhooks, mayor tasa de operaciones por minuto para CI/CD.</p>
+              <p style="margin-bottom: 1.5px;">• <strong>Premium (Enterprise Global):</strong></p>
+              <p style="margin-left: 6px;">- 500 GB, <strong>Geo-replicación</strong> activa, Private Endpoints, CMK y 500 webhooks.</p>
             </div>
           </div>
 
           <div class="info-card">
             <div class="info-card-title">Modo de Permisos (RBAC vs ABAC)</div>
-            <div class="info-card-content">
-              <p>• <strong>RBAC Registry Permissions:</strong> Alcance global tradicional (roles <code>AcrPush</code> / <code>AcrPull</code> sobre todo el registro).</p>
-              <p>• <strong>RBAC + ABAC Repository Permissions:</strong> Control de acceso basado en atributos. Permite limitar permisos por <strong>repositorio individual</strong> (ej. permitir que un equipo solo publique en <code>models/nlp:*</code> y no en <code>models/vision:*</code>).</p>
+            <div class="info-card-content" style="font-size: 7.0px; line-height: 1.22;">
+              <p style="margin-bottom: 1.5px;">• <strong>RBAC Registry Permissions (Global):</strong></p>
+              <p style="margin-left: 6px; margin-bottom: 2px;">- Alcance global del registro con roles <code>AcrPush</code> y <code>AcrPull</code>.</p>
+              <p style="margin-bottom: 1.5px;">• <strong>RBAC + ABAC Repository (Granular):</strong></p>
+              <p style="margin-left: 6px;">- Permisos por repositorio (Tokens): ej. restringir acceso a <code>models/nlp:*</code>.</p>
             </div>
           </div>
         </div>
@@ -897,22 +973,36 @@
       <!-- Sección 2: Redes y Cifrado -->
       <div class="section-group">
         <div class="section-heading">2. Pestañas "Networking" y "Encryption": Aislamiento y Seguridad en Reposo</div>
+        <div class="portal-tabs">
+          <span class="portal-tab">Basics</span>
+          <span class="portal-tab active">Networking</span>
+          <span class="portal-tab active" style="color: #0078d4; border-top: 2px solid #0078d4;">Encryption</span>
+          <span class="portal-tab">Tags</span>
+          <span class="portal-tab">Review + create</span>
+        </div>
         <div class="two-col-grid">
           <div class="info-card">
             <div class="info-card-title"><svg class="svc-icon" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="14" height="14" rx="2" fill="#0078D4" fill-opacity="0.15" stroke="#0078D4" stroke-width="1.2" stroke-dasharray="2 2"/><circle cx="5" cy="5" r="1.8" fill="#0078D4"/><circle cx="13" cy="5" r="1.8" fill="#0078D4"/><circle cx="9" cy="13" r="1.8" fill="#0078D4"/><path d="M5 5h8M9 5v8" stroke="#0078D4" stroke-width="1.2"/></svg> Conectividad de Red y Endpoints</div>
-            <div class="info-card-content">
-              <p>• <strong>Public Access vs. Private Access:</strong> Acceso público desde internet (restringible por IP) o aislamiento total usando <strong>Private Endpoints (Azure Private Link)</strong> con IP privada dentro de una Virtual Network (VNet).</p>
-              <p>• <strong>Dedicated Data Endpoint:</strong> Separa el tráfico de control (autenticación y catálogo) del tráfico masivo de descarga de capas (blobs), eliminando cuellos de botella y facilitando reglas de firewall perimetral.</p>
-              <p>• <strong>Protocolo de Red:</strong> Soporta <code>IPv4 only</code> o <code>Dual Stack (IPv4 y IPv6)</code> para topologías empresariales.</p>
+            <div class="info-card-content" style="font-size: 7.0px; line-height: 1.22;">
+              <p style="margin-bottom: 1.5px;">• <strong>Public Access vs. Private Access:</strong></p>
+              <p style="margin-left: 6px; margin-bottom: 1.5px;">- <em>Public Access:</em> Conectividad pública directa (restringible por lista blanca CIDR/IP).</p>
+              <p style="margin-left: 6px; margin-bottom: 2px;">- <em>Private Access:</em> Aislamiento perimetral con <strong>Private Endpoints (Azure Private Link)</strong> con IP interna en VNet.</p>
+              <p style="margin-bottom: 1.5px;">• <strong>Dedicated Data Endpoint:</strong></p>
+              <p style="margin-left: 6px; margin-bottom: 2px;">- Separa el tráfico de control (autenticación) del tráfico pesado de blobs de capas OCI.</p>
+              <p style="margin-bottom: 1.5px;">• <strong>Protocolo de Red:</strong></p>
+              <p style="margin-left: 6px;">- Soporte nativo para <code>IPv4 only</code> o <code>Dual Stack (IPv4 e IPv6)</code>.</p>
             </div>
           </div>
 
           <div class="info-card">
             <div class="info-card-title"><svg class="svc-icon" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 1.5a4.5 4.5 0 00-4.5 4.5c0 1.9 1.2 3.5 2.9 4.2L6 14.5l2 1 1.5-1.5 1 1 2-2-1.2-1.3c1.7-.7 2.9-2.3 2.9-4.2A4.5 4.5 0 009 1.5zm0 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3z" fill="#0078D4"/><path d="M9 2.5a3.5 3.5 0 00-3.5 3.5c0 1.5.9 2.8 2.2 3.3l1.3 5.7 1-1 1 1 1.5-1.5-1-1 1-1-1-1c1.2-.5 2-1.8 2-3.2A3.5 3.5 0 009 2.5z" fill="#EAA300"/></svg> Cifrado de Capas y Gobernanza (CMK / Tags)</div>
-            <div class="info-card-content">
-              <p>• <strong>Microsoft-Managed Key (MMK):</strong> Cifrado automático transparente en reposo con claves gestionadas por Microsoft (AES-256). Viene habilitado por defecto sin costo adicional.</p>
-              <p>• <strong>Customer-Managed Key (CMK / BYOK):</strong> Control total de las claves criptográficas almacenadas en <strong>Azure Key Vault</strong>. Permite rotación y revocación instantánea (mandatorio en banca y salud: HIPAA/PCI-DSS; requiere SKU Premium).</p>
-              <p>• <strong>Tags (Etiquetas):</strong> Pares <code>Clave: Valor</code> (ej. <code>Project: AI-200</code>) para auditoría y asignación de costos.</p>
+            <div class="info-card-content" style="font-size: 7.0px; line-height: 1.22;">
+              <p style="margin-bottom: 1.5px;">• <strong>Microsoft-Managed Key (MMK):</strong></p>
+              <p style="margin-left: 6px; margin-bottom: 2px;">- Cifrado transparente en reposo con claves gestionadas por Microsoft (AES-256) activo por defecto.</p>
+              <p style="margin-bottom: 1.5px;">• <strong>Customer-Managed Key (CMK / BYOK):</strong></p>
+              <p style="margin-left: 6px; margin-bottom: 2px;">- Control criptográfico exclusivo en <strong>Azure Key Vault</strong> con rotación y revocación (requiere SKU Premium).</p>
+              <p style="margin-bottom: 1.5px;">• <strong>Tags (Etiquetas):</strong></p>
+              <p style="margin-left: 6px;">- Pares <code>Clave: Valor</code> (ej. <code>Project: AI-200</code>) para auditoría y asignación de centros de costos.</p>
             </div>
           </div>
         </div>
@@ -954,7 +1044,7 @@
 
     <!-- Pie de página 3 -->
     <div class="page-footer">
-      <span>AZURE AI-200 / AI-102 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
+      <span>AZURE AI-200 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
       <span>PÁGINA 3 DE 11</span>
     </div>
   </div>
@@ -964,7 +1054,7 @@
   <div class="page">
     <div class="page-content">
       <div>
-        <div class="header-badge">AZURE AI-200 / AI-102 • ARQUITECTURA DEL REGISTRO Y ARTEFACTOS OCI</div>
+        <div class="header-badge">AZURE AI-200 • ARQUITECTURA DEL REGISTRO Y ARTEFACTOS OCI</div>
         <h1 class="doc-title">Estructura de ACR, Niveles de Servicio y Desduplicación</h1>
         <p class="doc-subtitle">Jerarquía OCI, espacios de nombres, artefactos Helm y tiers de escalabilidad (Contenido Oficial PPT)</p>
         <div class="divider"></div>
@@ -1068,18 +1158,21 @@
       <!-- Gestión y Monitoreo de ACR Tasks en Azure Portal -->
       <div class="info-card" style="margin-top: 2px;">
         <div class="info-card-title">Gestión y Monitoreo de ACR Tasks en Azure Portal (GUI)</div>
+        <div class="portal-breadcrumb">Azure Portal › Container registries › &lt;acr_name&gt; › Services › Tasks | Runs</div>
         <div class="info-card-content">
-          <p><strong>Ubicación en el Portal:</strong> Abra su recurso <strong>Azure Container Registry</strong> y, en el menú lateral izquierdo bajo la sección <strong>Services</strong> (Servicios), navegue a <strong>Tasks</strong> (Tareas) o <strong>Runs</strong> (Ejecuciones).</p>
-          <p><strong>1. Inspección de Ejecuciones (Runs):</strong> En la pestaña <strong>Runs</strong>, se audita el historial de compilaciones (tanto <em>Quick Tasks</em> con <code>az acr build</code> como tareas automáticas). Al hacer clic en un <code>Run ID</code>, se visualiza el <strong>Stream de logs en vivo</strong> y el estado final (<em>Succeeded</em> o <em>Failed</em>).</p>
-          <p><strong>2. Naturaleza de la Pestaña "Tasks" (Sin botón de creación GUI):</strong> Azure Portal <strong>no posee un asistente ni botón "+ Add Task"</strong>. Las tareas automatizadas deben crearse mediante <strong>Azure CLI</strong> (<code>az acr task create</code>) o plantillas Bicep/ARM. La vista del Portal es de gobernanza y lectura: lista las tareas creadas por CLI y sus triggers.</p>
-          <p><strong>3. Ejecución Manual On-Demand:</strong> Una vez creada la tarea vía CLI, figurará en el listado de <strong>Tasks</strong> del Portal. Al seleccionarla, podrá consultar sus propiedades y pulsar <strong>Run now</strong> para disparar una ejecución manual desde la web.</p>
+          <p>• <strong>1. Inspección de Ejecuciones (Runs):</strong> En la pestaña <strong>Runs</strong>, se audita el historial cronológico de compilaciones en la nube (tanto <em>Quick Tasks</em> con <code>az acr build</code> como tareas automáticas):</p>
+          <p style="margin-left: 6px;">- <em>Stream de Logs en Vivo:</em> Al hacer clic sobre cualquier <code>Run ID</code>, se visualiza el log de compilación en tiempo real idéntico a la terminal.</p>
+          <p style="margin-left: 6px;">- <em>Diagnóstico de Estados:</em> Permite auditar el estado final (<em>Succeeded</em> o <em>Failed</em>), duración exacta y hash OCI generado.</p>
+          <p>• <strong>2. Gobernanza de Tareas (Tasks - Modelo CLI-First):</strong> Azure Portal <strong>no posee un asistente ni botón "+ Add Task"</strong>. Las tareas programadas o con triggers de git se crean vía <strong>Azure CLI</strong> (<code>az acr task create</code>):</p>
+          <p style="margin-left: 6px;">- <em>Vista Centralizada:</em> El portal lista las tareas registradas, plataforma de CPU y desencadenadores activos.</p>
+          <p style="margin-left: 6px;">- <em>Ejecución Manual On-Demand:</em> Al seleccionar cualquier tarea listada, es posible consultar sus propiedades y pulsar <strong>Run now</strong> para disparar una ejecución manual web.</p>
         </div>
       </div>
     </div>
 
     <!-- Pie de página 4 -->
     <div class="page-footer">
-      <span>AZURE AI-200 / AI-102 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
+      <span>AZURE AI-200 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
       <span>PÁGINA 4 DE 11</span>
     </div>
   </div>
@@ -1089,7 +1182,7 @@
   <div class="page">
     <div class="page-content">
       <div>
-        <div class="header-badge">AZURE AI-200 / AI-102 • CICLO DE VIDA SERVERLESS Y TESTING CLOUD</div>
+        <div class="header-badge">AZURE AI-200 • CICLO DE VIDA SERVERLESS Y TESTING CLOUD</div>
         <h1 class="doc-title">Ciclo de Vida de ACR Tasks y Validación On-Demand</h1>
         <p class="doc-subtitle">Las 5 fases de build en Azure, inspección OCI, direccionamiento y testing serverless con az acr run</p>
         <div class="divider"></div>
@@ -1097,12 +1190,12 @@
 
       <!-- Banner de 5 fases de ACR Tasks -->
       <div class="banner-green">
-        <strong>Ciclo de Vida Interno de ACR Tasks (5 Fases en la Nube de Azure):</strong><br>
-        1. <strong>Empaquetado y Carga:</strong> Comprime el contexto de <code>./api</code> en un tarball y lo sube por HTTPS seguro al storage de ACR.<br>
-        2. <strong>Encolado de Tarea:</strong> Encola la solicitud y aprovisiona un agente de cómputo efímero y aislado administrado por Azure.<br>
-        3. <strong>Streaming de Capas:</strong> Ejecuta las instrucciones del Dockerfile transmitiendo los logs en vivo a su terminal.<br>
-        4. <strong>Inserción en Registro:</strong> Publica la imagen terminada directamente en su Azure Container Registry privado.<br>
-        5. <strong>Reporte de Digest y Estado:</strong> Genera el hash inmutable SHA-256 y confirma el resultado exitoso (<i>Task Succeeded</i>).
+        <strong>Ciclo de Vida Interno de ACR Tasks (5 Fases en la Nube de Azure):</strong>
+        <p style="margin: 2px 0 1px 0;">• <strong>1. Empaquetado y Carga:</strong> Comprime el contexto de <code>./api</code> en un tarball y lo transfiere por HTTPS seguro al storage de ACR.</p>
+        <p style="margin: 1px 0 1px 0;">• <strong>2. Encolado y Cómputo:</strong> Encola la solicitud y aprovisiona un runner de cómputo efímero y aislado administrado por Azure.</p>
+        <p style="margin: 1px 0 1px 0;">• <strong>3. Streaming de Capas:</strong> Ejecuta las instrucciones del Dockerfile transmitiendo los logs en vivo a la terminal.</p>
+        <p style="margin: 1px 0 1px 0;">• <strong>4. Inserción OCI:</strong> Publica la imagen terminada directamente en su Azure Container Registry privado.</p>
+        <p style="margin: 1px 0 0 0;">• <strong>5. Digest y Estado:</strong> Genera el hash inmutable SHA-256 y confirma el resultado exitoso (<i>Task Succeeded</i>).</p>
       </div>
 
       <!-- Fase 3: Task 3 -->
@@ -1185,19 +1278,20 @@
 
       <!-- Inspección y Auditoría de Repositorios en Azure Portal (GUI) -->
       <div class="info-card" style="margin-top: 2px;">
-        <div class="info-card-title"><svg class="svc-icon" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 1.5l6 2.5v5c0 4-2.8 7.2-6 8-3.2-.8-6-4-6-8v-5l6-2.5z" fill="#0078D4"/><path d="M9 3.2L4.5 5v4c0 3.1 2.1 5.6 4.5 6.3V3.2z" fill="#50E6FF" opacity="0.75"/><path d="M8 8.5l-1.5-1.5L5.5 8 8 10.5 12.5 6l-1-1L8 8.5z" fill="#ffffff"/></svg> Inspección y Auditoría de Repositorios en Azure Portal (GUI)</div>
+        <div class="info-card-title"><svg class="svc-icon" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 1.5l6 2.5v5c0 4-2.8 7.2-6 8-3.2-.8-6-4-6-8v-5l6-2.5z" fill="#0078D4"/><path d="M9 3.2L4.5 5v4c0 3.1 2.1 5.6 4.5 6.3V3.2z" fill="#50E6FF" opacity="0.75"/><path d="M8 8.5l-1.5-1.5L5.5 8 8 10.5 12.5 6l-1-1L8 8.5z" fill="#ffffff"/></svg> Inspección, Auditoría y Ejecución en Azure Portal (GUI)</div>
+        <div class="portal-breadcrumb">Azure Portal › Container registries › &lt;acr_name&gt; › Services › Repositories › &lt;repository&gt; › &lt;tag&gt;</div>
         <div class="info-card-content">
-          <p><strong>Ubicación en el Portal:</strong> Acceda a su recurso <strong>Azure Container Registry</strong> y, en el menú lateral izquierdo bajo la sección <strong>Services</strong> (Servicios), seleccione <strong>Repositories</strong> (Repositorios).</p>
-          <p><strong>1. Exploración de Repositorios y Etiquetas:</strong> Al ingresar a <strong>Repositories</strong>, localice el repositorio generado (ej. <code>inference-api</code>). Al hacer clic sobre él, se listan todas las etiquetas asociadas (como <code>v1.0.0</code>) junto con el total de tags, fecha de última modificación y tamaño global.</p>
-          <p><strong>2. Auditoría del Manifiesto e Inmutabilidad (Digest SHA-256):</strong> Al pulsar sobre la etiqueta <code>v1.0.0</code>, Azure Portal despliega el <strong>Digest SHA-256</strong> criptográfico inmutable, el desglose de capas OCI, el tamaño comprimido en tránsito y el JSON completo del manifiesto OCI (<em>v2 Schema 2</em>).</p>
-          <p><strong>3. Seguridad y Escaneo de Vulnerabilidades:</strong> Si el registro tiene activado <em>Microsoft Defender for Cloud</em> (Defender for Containers), en esta misma hoja se auditan los CVEs detectados, severidad de vulnerabilidades y recomendaciones de mitigación antes de promover la imagen a entornos AKS o ACA.</p>
+          <p>• <strong>1. Exploración de Repositorios y Etiquetas (Tags):</strong> En <strong>Repositories</strong>, localice <code>inference-api</code> y seleccione la etiqueta deseada (<code>v1.0.0</code>) para auditar fecha de creación y tamaño en disco.</p>
+          <p>• <strong>2. Auditoría del Manifiesto Criptográfico (Digest SHA-256):</strong> Al hacer clic en <code>v1.0.0</code>, el portal abre la inspección profunda mostrando el Digest SHA-256 inmutable, desglose de capas OCI y JSON del manifiesto.</p>
+          <p>• <strong>3. Evaluación de Seguridad con Defender for Containers:</strong> En la pestaña de seguridad de la imagen, audite los paquetes vulnerables (CVE) y recomendaciones de remediación guiada.</p>
+          <p>• <strong>4. Testing Rápido en Azure Container Instances (Run instance GUI):</strong> En el menú de contexto (<code>...</code>) de la etiqueta <code>v1.0.0</code>, pulse <strong>Run instance</strong> para instanciar un contenedor serverless efímero (ACI) y validar la API gráficamente.</p>
         </div>
       </div>
     </div>
 
     <!-- Pie de página 5 -->
     <div class="page-footer">
-      <span>AZURE AI-200 / AI-102 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
+      <span>AZURE AI-200 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
       <span>PÁGINA 5 DE 11</span>
     </div>
   </div>
@@ -1207,7 +1301,7 @@
   <div class="page">
     <div class="page-content">
       <div>
-        <div class="header-badge">AZURE AI-200 / AI-102 • AUTOMATIZACIÓN AVANZADA Y GOBERNANZA</div>
+        <div class="header-badge">AZURE AI-200 • AUTOMATIZACIÓN AVANZADA Y GOBERNANZA</div>
         <h1 class="doc-title">Automatización CI/CD, Multiversioning y Gobernanza</h1>
         <p class="doc-subtitle">Disparadores por Git Commit, macros dinámicas, bloqueo inmutable y purga programada con acr purge</p>
         <div class="divider"></div>
@@ -1293,11 +1387,36 @@
           </div>
         </div>
       </div>
+
+      <!-- Gobernanza, Bloqueo de Imagen y Webhooks en Azure Portal (GUI) -->
+      <div class="info-card" style="margin-top: 2px;">
+        <div class="info-card-title"><svg class="svc-icon" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2H6a2 2 0 00-2 2v10a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2z" stroke="#0078d4" stroke-width="1.3"/><path d="M8 6h2M8 9h2M8 12h2" stroke="#0078d4" stroke-width="1.3" stroke-linecap="round"/></svg> Gobernanza de Artefactos, Bloqueo y Webhooks en Azure Portal (GUI)</div>
+        <div class="two-col-grid">
+          <div>
+            <div class="portal-breadcrumb">Azure Portal › Container registries › &lt;acr&gt; › Repositories › &lt;repo&gt; › &lt;tag&gt;</div>
+            <div class="info-card-content" style="font-size: 7.2px; line-height: 1.24;">
+              <p>• <strong>Bloqueo de Imagen contra Sobreescritura (GUI Lock):</strong></p>
+              <p style="margin-left: 6px;">- Navegue a la etiqueta <code>v1.0.0</code> y use los interruptores de gobernanza:</p>
+              <p style="margin-left: 6px;">- <em>Write enabled:</em> Seleccione <strong>Disabled</strong> (inmutabilidad estricta contra push).</p>
+              <p style="margin-left: 6px;">- <em>Delete enabled:</em> Seleccione <strong>Disabled</strong> (prevención contra borrado accidental).</p>
+            </div>
+          </div>
+          <div>
+            <div class="portal-breadcrumb">Azure Portal › Container registries › &lt;acr&gt; › Services › Webhooks › + Add</div>
+            <div class="info-card-content" style="font-size: 7.2px; line-height: 1.24;">
+              <p>• <strong>Desencadenadores de Integración (Webhooks):</strong></p>
+              <p style="margin-left: 6px;">- <em>Webhook name:</em> <code>wh-redeploy-prod</code> | <em>Status:</em> Enabled.</p>
+              <p style="margin-left: 6px;">- <em>Service URI:</em> Endpoint webhook de App Service, ACI o Event Grid.</p>
+              <p style="margin-left: 6px;">- <em>Actions:</em> Marque <code>push</code> y defina Scope en <code>inference-api:v*</code>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Pie de página 6 -->
     <div class="page-footer">
-      <span>AZURE AI-200 / AI-102 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
+      <span>AZURE AI-200 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
       <span>PÁGINA 6 DE 11</span>
     </div>
   </div>
@@ -1308,7 +1427,7 @@
   <div class="page">
     <div class="page-content">
       <div>
-        <div class="header-badge">AZURE AI-200 / AI-102 • ARQUITECTURA DE REFERENCIA Y CASO REAL</div>
+        <div class="header-badge">AZURE AI-200 • ARQUITECTURA DE REFERENCIA Y CASO REAL</div>
         <h1 class="doc-title">Arquitectura de Solución Enterprise y Caso de Uso Real</h1>
         <p class="doc-subtitle">Diagrama lógico de referencia, problemáticas de producción en IA y flujo serverless seguro con ACR Tasks</p>
         <div class="divider"></div>
@@ -1589,7 +1708,7 @@
 
     <!-- Pie de página 7 -->
     <div class="page-footer">
-      <span>AZURE AI-200 / AI-102 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
+      <span>AZURE AI-200 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
       <span>PÁGINA 7 DE 11</span>
     </div>
   </div>
@@ -1599,7 +1718,7 @@
   <div class="page">
     <div class="page-content">
       <div>
-        <div class="header-badge">AZURE AI-200 / AI-102 • ARQUITECTURA FÍSICA Y TOPOLOGÍA DE RED</div>
+        <div class="header-badge">AZURE AI-200 • ARQUITECTURA FÍSICA Y TOPOLOGÍA DE RED</div>
         <h1 class="doc-title">Arquitectura Física, Red Perimetral y Aislamiento Enterprise</h1>
         <p class="doc-subtitle">Topología de infraestructura en East US, Private Endpoints, segmentación de subredes y reglas de NSG</p>
         <div class="divider"></div>
@@ -1885,7 +2004,7 @@
 
     <!-- Pie de página 8 -->
     <div class="page-footer">
-      <span>AZURE AI-200 / AI-102 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
+      <span>AZURE AI-200 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
       <span>PÁGINA 8 DE 11</span>
     </div>
   </div>
@@ -1895,7 +2014,7 @@
   <div class="page">
     <div class="page-content">
       <div>
-        <div class="header-badge">AZURE AI-200 / AI-102 • LIMPIEZA Y TROUBLESHOOTING</div>
+        <div class="header-badge">AZURE AI-200 • LIMPIEZA Y TROUBLESHOOTING</div>
         <h1 class="doc-title">Limpieza de Recursos y Diagnóstico Oficial</h1>
         <p class="doc-subtitle">Desaprovisionamiento asíncrono, chequeo de salud y resolución de incidentes frecuentes en Azure</p>
         <div class="divider"></div>
@@ -1925,6 +2044,19 @@
       <!-- Banner de advertencia de borrado -->
       <div class="banner-amber">
         ⚠️ <strong>Precaución de Limpieza en Cascada:</strong> El comando <code>az group delete</code> elimina de forma permanente el grupo de recursos y todos los componentes asociados (registro ACR, repositorios, etiquetas e historiales de tareas). Si utilizó un grupo compartido, asegúrese de que no contenga otros recursos en producción.
+      </div>
+
+      <!-- Desaprovisionamiento en Azure Portal (GUI) -->
+      <div class="info-card" style="margin-top: 2px;">
+        <div class="info-card-title">Desaprovisionamiento y Eliminación en Azure Portal (GUI)</div>
+        <div class="portal-breadcrumb">Azure Portal › Resource groups › &lt;your-resource-group&gt; › Delete resource group</div>
+        <div class="info-card-content">
+          <p>• <strong>1. Navegación al Grupo de Recursos:</strong> En la barra superior de búsqueda global, localice <strong>Resource groups</strong> y seleccione el grupo utilizado en el laboratorio.</p>
+          <p>• <strong>2. Confirmación de Eliminación en Cascada:</strong> En la barra superior de comandos de la hoja <em>Overview</em>, presione <strong>Delete resource group</strong>:</p>
+          <p style="margin-left: 6px;">- <em>Validación de Seguridad:</em> Ingrese el nombre exacto del Resource Group en la caja de texto para habilitar el botón <strong>Delete</strong>.</p>
+          <p style="margin-left: 6px;">- <em>Purga Integral:</em> Azure destruye de forma concurrente el registro ACR, sus repositorios, imágenes y logs de compilación.</p>
+          <p>• <strong>3. Monitoreo en Notificaciones:</strong> Supervise el ícono de campana superior derecho para confirmar el estado final de desaprovisionamiento.</p>
+        </div>
       </div>
 
       <!-- Sección de Troubleshooting Oficial -->
@@ -1988,7 +2120,7 @@
 
     <!-- Pie de página 9 -->
     <div class="page-footer">
-      <span>AZURE AI-200 / AI-102 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
+      <span>AZURE AI-200 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
       <span>PÁGINA 9 DE 11</span>
     </div>
   </div>
@@ -1998,7 +2130,7 @@
   <div class="page">
     <div class="page-content">
       <div>
-        <div class="header-badge">AZURE AI-200 / AI-102 / AZ-204 • BANCO DE PREGUNTAS Y RESPUESTAS</div>
+        <div class="header-badge">AZURE AI-200 / AZ-204 • BANCO DE PREGUNTAS Y RESPUESTAS</div>
         <h1 class="doc-title">Preguntas Oficiales de Examen de Certificación</h1>
         <p class="doc-subtitle">Knowledge check oficial de Microsoft Learn (Slide 10 PPT) y distribución de habilidades evaluadas en el Examen AI-200</p>
         <div class="divider"></div>
@@ -2053,120 +2185,254 @@
         </div>
       </div>
 
-      <!-- Q1 Oficial PPT -->
-      <div class="qa-card">
-        <div class="qa-header">
-          <span class="qa-title">Pregunta 1: Entorno de Compilación Controlado (Oficial PPT Slide 10)</span>
-          <span class="qa-topic-tag">Quick Tasks</span>
+      <!-- Q1 Oficial con Diagrama de Arquitectura de Compilación Serverless (Slide 10 Oficial Microsoft) -->
+      <div class="qa-card" style="border-left: 3.5px solid #0078d4; padding: 3.5px 5.5px;">
+        <div class="qa-header" style="margin-bottom: 2px;">
+          <span class="qa-title" style="font-size: 8.5px;">Pregunta 1: Entorno de Compilación Controlado y Eliminación de Docker Local (Slide 10 Oficial)</span>
+          <span class="qa-topic-tag">Quick Tasks &amp; Cloud Build</span>
         </div>
-        <div class="qa-scenario">
-          El equipo crea imágenes de contenedor en estaciones de trabajo de desarrollador, lo que conduce a resultados incoherentes. Necesitas que todas las imágenes se integren en un entorno controlado en la nube sin depender del hardware local. ¿Qué característica de ACR aborda esto?
-        </div>
-        <div class="qa-options">
-          <div>A) Replicación geográfica del registro</div>
-          <div>B) Creación rápida de ACR Tasks (Quick Tasks con <code>az acr build</code>)</div>
-          <div>C) Espacios de nombres del repositorio</div>
-        </div>
-        <div class="qa-answer">
-          ✓ Respuesta Correcta: B) Creación rápida de ACR Tasks (Quick Tasks)
-        </div>
-        <div class="qa-rationale">
-          <strong>Justificación Oficial:</strong> Las tareas rápidas (Quick Tasks) ejecutan el proceso de construcción y push directamente en agentes efímeros y controlados de Azure, eliminando divergencias causadas por las versiones del daemon de Docker o dependencias locales de cada máquina de desarrollo.
+
+        <div style="display: grid; grid-template-columns: 1.12fr 0.88fr; gap: 5.5px; align-items: start;">
+          <!-- Columna Izquierda: Escenario, Opciones, Respuesta y Justificación Técnica -->
+          <div>
+            <div class="qa-scenario" style="font-size: 7.5px; margin-bottom: 2px;">
+              El equipo genera imágenes en estaciones de desarrollo locales con discrepancias en el Docker Daemon. Se requiere compilar en un entorno cloud administrado e idéntico sin instalar Docker localmente. ¿Qué resuelve esto?
+            </div>
+            <div class="qa-options" style="font-size: 7.2px; margin-bottom: 2px;">
+              <div>A) Replicación geográfica del registro en múltiples regiones secundarias.</div>
+              <div style="font-weight: 700; color: #166534;">B) Creación rápida de ACR Tasks (Quick Tasks con <code>az acr build</code>).</div>
+              <div>C) Espacios de nombres jerárquicos del repositorio OCI.</div>
+            </div>
+            <div class="qa-answer" style="font-size: 7.3px; margin-bottom: 2px; padding: 1px 4px;">
+              ✓ Respuesta Correcta: B) Creación rápida de ACR Tasks (Quick Tasks con az acr build)
+            </div>
+            <div class="qa-rationale" style="font-size: 7.0px; line-height: 1.22;">
+              <p style="margin-bottom: 1px;">• <strong>Por qué Quick Tasks (az acr build):</strong></p>
+              <p style="margin-left: 6px; margin-bottom: 1.5px;">- Empaqueta el contexto local (<code>./api</code>), lo transfiere por TLS y ejecuta la compilación en agentes efímeros dedicados en Azure con logs en vivo.</p>
+              <p style="margin-bottom: 1px;">• <strong>Por qué fallan los distractores A y C:</strong></p>
+              <p style="margin-left: 6px; margin-bottom: 1.5px;">- La geo-replicación (A) sincroniza artefactos ya construidos; los espacios de nombres (C) organizan nombres, ninguno compila imágenes.</p>
+              <p style="margin-bottom: 1px;">• <strong>Regla de Oro de Arquitectura:</strong></p>
+              <p style="margin-left: 6px;">- No se requiere Docker Desktop ni permisos de root en local; la nube de Azure orquesta el build serverless de extremo a extremo.</p>
+            </div>
+          </div>
+
+          <!-- Columna Derecha: Diagrama Visual de Flujo de Compilación Serverless -->
+          <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 3px 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
+            <div style="font-size: 6.8px; font-weight: 700; color: #0078d4; display: flex; align-items: center; gap: 3px; margin-bottom: 2px; border-bottom: 1px solid #e2e8f0; padding-bottom: 1px;">
+              <svg style="width: 8px; height: 8px;" viewBox="0 0 18 18" fill="none"><path d="M2 9h14M9 2l7 7-7 7" stroke="#0078d4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Flujo de Compilación Serverless con ACR Tasks</span>
+            </div>
+
+            <!-- Tier 1: Local Context -->
+            <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 2.5px; padding: 1.5px 3px; margin-bottom: 1px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 6.6px; font-weight: 700; color: #0369a1;">1. Estación de Desarrollo / Runner CI</span>
+                <span style="font-size: 6.2px; background: #0284c7; color: #fff; padding: 0.5px 2.5px; border-radius: 2px; font-weight: bold;">Sin Docker</span>
+              </div>
+              <div style="font-size: 6.2px; color: #0c4a6e; margin-top: 0.5px;">
+                Contexto local <code>./api</code> comprimido en tarball (.tar.gz)
+              </div>
+            </div>
+
+            <!-- Flecha -->
+            <div style="text-align: center; line-height: 0.6; margin: 0;">
+              <span style="font-size: 7px; color: #0284c7;">▼</span>
+            </div>
+
+            <!-- Tier 2: Azure Managed Build Agent -->
+            <div style="background: #f8fafc; border: 1.5px solid #0078d4; border-radius: 2.5px; padding: 2px 3px; margin-bottom: 1px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 6.7px; font-weight: 700; color: #0f172a;">2. Azure Managed Compute (Runner Efímero)</span>
+                <span style="font-size: 6.2px; background: #0078d4; color: #fff; padding: 0.5px 2.5px; border-radius: 2px; font-weight: bold;">ACR Tasks</span>
+              </div>
+              <div style="font-size: 6.2px; color: #334155; margin-top: 0.5px; line-height: 1.15;">
+                <div>• Ejecuta instrucciones del Dockerfile en sandbox aislado</div>
+                <div style="color: #15803d; font-weight: bold;">• Transmite streaming de logs en vivo a la consola</div>
+              </div>
+            </div>
+
+            <!-- Flecha -->
+            <div style="text-align: center; line-height: 0.6; margin: 0;">
+              <span style="font-size: 7px; color: #16a34a;">▼</span>
+            </div>
+
+            <!-- Tier 3: ACR Storage -->
+            <div style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 2.5px; padding: 1.5px 3px; margin-bottom: 1px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 6.6px; font-weight: 700; color: #15803d;">3. Azure Container Registry Privado</span>
+                <span style="font-size: 6.2px; background: #16a34a; color: #fff; padding: 0.5px 2.5px; border-radius: 2px; font-weight: bold;">OCI Storage</span>
+              </div>
+              <div style="font-size: 6.2px; color: #166534; margin-top: 0.5px;">
+                Capas desduplicadas por SHA-256 inmutable + Tag <code>v1.0.0</code>
+              </div>
+            </div>
+
+            <!-- Callout: Trampa de Examen -->
+            <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 2px; padding: 1px 2.5px; font-size: 6.0px; color: #92400e; line-height: 1.15;">
+              ⚠️ <strong>Trampa de Examen:</strong> <code>az acr build</code> nunca invoca Docker local; el cómputo se delega 100% a la nube.
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Q2 Oficial PPT -->
-      <div class="qa-card">
-        <div class="qa-header">
-          <span class="qa-title">Pregunta 2: Consistencia Estricta en Producción (Oficial PPT Slide 10)</span>
-          <span class="qa-topic-tag">Digest SHA-256</span>
+      <!-- Fila 1: Q2 y Q3 en Grid de 2 Columnas -->
+      <div class="two-col-grid" style="margin-top: 1.5px;">
+        <!-- Q2 Oficial (Slide 10 PPT) -->
+        <div class="qa-card" style="padding: 3px 5px;">
+          <div class="qa-header">
+            <span class="qa-title" style="font-size: 8.2px;">Pregunta 2: Consistencia e Inmutabilidad (Slide 10)</span>
+            <span class="qa-topic-tag">Digest SHA-256</span>
+          </div>
+          <div class="qa-scenario" style="font-size: 7.2px; line-height: 1.2; margin-bottom: 1.5px;">
+            En producción se requiere que todos los nodos ejecuten la versión idéntica de la imagen, incluso si un push posterior reasigna la etiqueta. ¿Cómo referenciarla?
+          </div>
+          <div class="qa-options" style="font-size: 7.0px; line-height: 1.18; margin-bottom: 1.5px;">
+            <div>A) Por la etiqueta flotante <code>latest</code>.</div>
+            <div style="font-weight: 700; color: #166534;">B) Por hash de manifiesto inmutable (Digest SHA-256).</div>
+            <div>C) Por etiqueta de versión semántica (ej. <code>:v1.0.0</code>).</div>
+          </div>
+          <div class="qa-answer" style="font-size: 7.1px; padding: 1px 3.5px; margin-bottom: 1px;">
+            ✓ Respuesta Correcta: B) Por hash de manifiesto inmutable (Digest SHA-256)
+          </div>
+          <div class="qa-rationale" style="font-size: 6.8px; line-height: 1.2;">
+            <strong>Justificación:</strong> Los tags son punteros mutables en la norma OCI. Referenciar por hash criptográfico inmutable (<code>image@sha256:...</code>) garantiza ejecución idéntica sin sobrescritura.
+          </div>
         </div>
-        <div class="qa-scenario">
-          Debes implementar una imagen de contenedor en producción y asegurarte de que cada nodo ejecute exactamente la misma versión, incluso si alguien inserta una nueva imagen con la misma etiqueta. ¿Cómo debes hacer referencia a la imagen en el manifiesto de despliegue?
-        </div>
-        <div class="qa-options">
-          <div>A) Por la etiqueta <code>latest</code></div>
-          <div>B) Por hash de manifiesto (Resumen SHA-256 / Digest)</div>
-          <div>C) Por etiqueta de versión semántica (ej. <code>:v1.0.0</code>)</div>
-        </div>
-        <div class="qa-answer">
-          ✓ Respuesta Correcta: B) Por hash de manifiesto (Resumen SHA-256 / Digest)
-        </div>
-        <div class="qa-rationale">
-          <strong>Justificación Oficial:</strong> Las etiquetas son referencias mutables por definición en la especificación OCI. Para garantizar que cada nodo del clúster descargue el mismo binario exacto sin posibilidad de sobreescritura, se debe referenciar por el hash de manifiesto (<code>image@sha256:...</code>).
+
+        <!-- Q3 Oficial (Slide 8 PPT) -->
+        <div class="qa-card" style="padding: 3px 5px;">
+          <div class="qa-header">
+            <span class="qa-title" style="font-size: 8.2px;">Pregunta 3: Gobernanza y Bloqueo de Imagen</span>
+            <span class="qa-topic-tag">Gobernanza OCI</span>
+          </div>
+          <div class="qa-scenario" style="font-size: 7.2px; line-height: 1.2; margin-bottom: 1.5px;">
+            En un registro corporativo se desea bloquear <code>inference-api:v1.0.0</code> para impedir que los pipelines sobrescriban o borren el artefacto. ¿Qué comando ejecuta esto?
+          </div>
+          <div class="qa-options" style="font-size: 7.0px; line-height: 1.18; margin-bottom: 1.5px;">
+            <div style="font-weight: 700; color: #166534;">A) <code>az acr repository update --write-enabled false --delete-enabled false</code></div>
+            <div>B) <code>az acr repository delete --name myacr --image inference-api:v1.0.0</code></div>
+            <div>C) Modificar el SKU del registro de Standard a Basic.</div>
+          </div>
+          <div class="qa-answer" style="font-size: 7.1px; padding: 1px 3.5px; margin-bottom: 1px;">
+            ✓ Respuesta Correcta: A) az acr repository update --write-enabled false ...
+          </div>
+          <div class="qa-rationale" style="font-size: 6.8px; line-height: 1.2;">
+            <strong>Justificación:</strong> Los flags <code>--write-enabled false</code> y <code>--delete-enabled false</code> bloquean el artefacto en el plano de datos, blindando la versión contra modificaciones accidentales.
+          </div>
         </div>
       </div>
 
-      <!-- Q3 Inmutabilidad -->
-      <div class="qa-card">
-        <div class="qa-header">
-          <span class="qa-title">Pregunta 3: Gobernanza y Bloqueo de Imágenes en ACR</span>
-          <span class="qa-topic-tag">Gobernanza OCI</span>
+      <!-- Fila 2: Q4 y Q5 en Grid de 2 Columnas -->
+      <div class="two-col-grid" style="margin-top: 1.5px;">
+        <!-- Q4 Oficial (Slide 8 PPT) -->
+        <div class="qa-card" style="padding: 3px 5px;">
+          <div class="qa-header">
+            <span class="qa-title" style="font-size: 8.2px;">Pregunta 4: Parcheo de Vulnerabilidades Base</span>
+            <span class="qa-topic-tag">Base Image Triggers</span>
+          </div>
+          <div class="qa-scenario" style="font-size: 7.2px; line-height: 1.2; margin-bottom: 1.5px;">
+            Se publica un CVE crítico en la imagen base pública <code>python:3.11-slim</code>. Se requiere recompilar automáticamente las imágenes derivadas dependientes. ¿Qué solución oficial aplica?
+          </div>
+          <div class="qa-options" style="font-size: 7.0px; line-height: 1.18; margin-bottom: 1.5px;">
+            <div>A) Tareas cron periódicas en Azure Container Instances.</div>
+            <div style="font-weight: 700; color: #166534;">B) ACR Tasks con desencadenador de imagen base (Base Image Trigger).</div>
+            <div>C) Webhooks de GitHub invocando un Automation Runbook.</div>
+          </div>
+          <div class="qa-answer" style="font-size: 7.1px; padding: 1px 3.5px; margin-bottom: 1px;">
+            ✓ Respuesta Correcta: B) ACR Tasks con Base Image Update Trigger
+          </div>
+          <div class="qa-rationale" style="font-size: 6.8px; line-height: 1.2;">
+            <strong>Justificación:</strong> ACR Tasks rastrea dependencias de imágenes base y dispara automáticamente la recompilación y el push cuando la imagen upstream recibe parches de seguridad.
+          </div>
         </div>
-        <div class="qa-scenario">
-          En un registro de producción se desea bloquear la imagen <code>inference-api:v1.2.0</code> para impedir que los pipelines de CI/CD sobrescriban accidentalmente la etiqueta o eliminen el artefacto. ¿Qué comando ejecuta esta política?
-        </div>
-        <div class="qa-options">
-          <div>A) <code>az acr repository update --name myacr --image inference-api:v1.2.0 --write-enabled false</code></div>
-          <div>B) <code>az acr repository delete --name myacr --image inference-api:v1.2.0 --yes</code></div>
-          <div>C) Modificar el SKU del registro de Standard a Basic</div>
-        </div>
-        <div class="qa-answer">
-          ✓ Respuesta Correcta: A) az acr repository update --name myacr --image inference-api:v1.2.0 --write-enabled false
-        </div>
-        <div class="qa-rationale">
-          <strong>Justificación:</strong> El flag <code>--write-enabled false</code> bloquea la imagen contra sobreescritura y eliminación accidental, garantizando la inmutabilidad de la versión en el registro privado.
+
+        <!-- Q5 Oficial (Slide 5 PPT) -->
+        <div class="qa-card" style="padding: 3px 5px;">
+          <div class="qa-header">
+            <span class="qa-title" style="font-size: 8.2px;">Pregunta 5: Restricciones de Nomenclatura y DNS</span>
+            <span class="qa-topic-tag">Arquitectura &amp; DNS</span>
+          </div>
+          <div class="qa-scenario" style="font-size: 7.2px; line-height: 1.2; margin-bottom: 1.5px;">
+            Un ingeniero intenta crear un registro llamado <code>My_Prod_ACR_EastUS</code> y la CLI rechaza la orden. ¿Qué requisito de Azure originó el error de validación?
+          </div>
+          <div class="qa-options" style="font-size: 7.0px; line-height: 1.18; margin-bottom: 1.5px;">
+            <div style="font-weight: 700; color: #166534;">A) Debe tener 5-50 caracteres alfanuméricos exclusivamente y ser único en el mundo.</div>
+            <div>B) El SKU Basic solo admite nombres que comiencen con el prefijo "registry".</div>
+            <div>C) El nombre del registro debe coincidir con el Resource Group.</div>
+          </div>
+          <div class="qa-answer" style="font-size: 7.1px; padding: 1px 3.5px; margin-bottom: 1px;">
+            ✓ Respuesta Correcta: A) 5-50 caracteres alfanuméricos y único globalmente
+          </div>
+          <div class="qa-rationale" style="font-size: 6.8px; line-height: 1.2;">
+            <strong>Justificación:</strong> El nombre conforma el FQDN público resoluble por DNS (<code>&lt;acr&gt;.azurecr.io</code>). Por diseño en Azure, no se admiten guiones bajos (<code>_</code>) ni caracteres en mayúsculas.
+          </div>
         </div>
       </div>
 
-      <!-- Q4 Parcheo Base Image -->
-      <div class="qa-card">
-        <div class="qa-header">
-          <span class="qa-title">Pregunta 4: Parcheo Automatizado de Vulnerabilidades en Imágenes Base</span>
-          <span class="qa-topic-tag">Base Image Triggers</span>
+      <!-- Fila 3: Q6 y Q7 en Grid de 2 Columnas -->
+      <div class="two-col-grid" style="margin-top: 1.5px;">
+        <!-- Q6 Oficial (Slide 6 PPT) -->
+        <div class="qa-card" style="padding: 3px 5px;">
+          <div class="qa-header">
+            <span class="qa-title" style="font-size: 8.2px;">Pregunta 6: Autenticación Zero-Trust para Pull</span>
+            <span class="qa-topic-tag">Managed Identity &amp; RBAC</span>
+          </div>
+          <div class="qa-scenario" style="font-size: 7.2px; line-height: 1.2; margin-bottom: 1.5px;">
+            Un clúster de cómputo (AKS/ACA) requiere extraer imágenes desde un ACR privado sin almacenar contraseñas de admin en texto plano. ¿Qué combinación cumple el estándar?
+          </div>
+          <div class="qa-options" style="font-size: 7.0px; line-height: 1.18; margin-bottom: 1.5px;">
+            <div>A) Habilitar cuenta de administrador y exportar la clave en variables de entorno.</div>
+            <div style="font-weight: 700; color: #166534;">B) Habilitar Managed Identity y otorgar el rol RBAC <code>AcrPull</code> en el registro ACR.</div>
+            <div>C) Asignar rol <code>Contributor</code> al clúster en toda la suscripción.</div>
+          </div>
+          <div class="qa-answer" style="font-size: 7.1px; padding: 1px 3.5px; margin-bottom: 1px;">
+            ✓ Respuesta Correcta: B) Managed Identity con rol AcrPull en el registro
+          </div>
+          <div class="qa-rationale" style="font-size: 6.8px; line-height: 1.2;">
+            <strong>Justificación:</strong> Managed Identity elimina secretos estáticos. El rol <code>AcrPull</code> confiere permisos exclusivos de lectura sobre los repositorios sin capacidad de escritura ni borrado.
+          </div>
         </div>
-        <div class="qa-scenario">
-          Se publica un parche de seguridad crítico (CVE) en la imagen base pública <code>python:3.11-slim</code>. Se requiere que todas las imágenes dependientes en ACR se reconstruyan automáticamente sin intervención manual ni pipelines externos. ¿Qué solución se debe implementar?
-        </div>
-        <div class="qa-options">
-          <div>A) Tareas cron periódicas en Azure Container Instances</div>
-          <div>B) ACR Tasks con desencadenador de imagen base (Base Image Update Trigger)</div>
-          <div>C) Webhooks de GitHub invocando un Azure Automation Runbook</div>
-        </div>
-        <div class="qa-answer">
-          ✓ Respuesta Correcta: B) ACR Tasks con desencadenador de imagen base (Base Image Update Trigger)
-        </div>
-        <div class="qa-rationale">
-          <strong>Justificación:</strong> ACR Tasks detecta de forma nativa cuándo una imagen base (en el propio ACR o en registros públicos como Docker Hub) recibe una actualización y recompila automáticamente las imágenes derivadas dependientes.
+
+        <!-- Q7 Oficial (Slide 8 PPT) -->
+        <div class="qa-card" style="padding: 3px 5px;">
+          <div class="qa-header">
+            <span class="qa-title" style="font-size: 8.2px;">Pregunta 7: Optimización de Costos y Purga</span>
+            <span class="qa-topic-tag">acr purge &amp; Lifecycle</span>
+          </div>
+          <div class="qa-scenario" style="font-size: 7.2px; line-height: 1.2; margin-bottom: 1.5px;">
+            Por ejecuciones continuas de CI/CD se acumulan imágenes huérfanas sin tag (dangling), saturando la cuota del SKU Standard. ¿Qué mecanismo automatiza la limpieza periódica?
+          </div>
+          <div class="qa-options" style="font-size: 7.0px; line-height: 1.18; margin-bottom: 1.5px;">
+            <div style="font-weight: 700; color: #166534;">A) Programar ACR Tasks con la utilidad de contenedor <code>acr purge --untagged --ago 7d</code>.</div>
+            <div>B) Cambiar el SKU a Basic para limitar automáticamente el almacenamiento a 10 GB.</div>
+            <div>C) Crear una alerta de Azure Monitor que ejecute <code>az group delete</code>.</div>
+          </div>
+          <div class="qa-answer" style="font-size: 7.1px; padding: 1px 3.5px; margin-bottom: 1px;">
+            ✓ Respuesta Correcta: A) Programar ACR Tasks con acr purge --untagged
+          </div>
+          <div class="qa-rationale" style="font-size: 6.8px; line-height: 1.2;">
+            <strong>Justificación:</strong> La herramienta oficial <code>acr purge</code> ejecutada como tarea cron elimina de forma segura capas e imágenes huérfanas con antigüedad mayor a 7 días.
+          </div>
         </div>
       </div>
 
-      <!-- Q5 Nomenclatura -->
-      <div class="qa-card">
-        <div class="qa-header">
-          <span class="qa-title">Pregunta 5: Restricciones de Nomenclatura y DNS de Azure Container Registry</span>
-          <span class="qa-topic-tag">Arquitectura &amp; DNS</span>
+      <!-- Simulación Interactiva con Microsoft Copilot (Slide 22 Oficial) -->
+      <div class="info-card" style="border-left: 3px solid #7c3aed; padding: 2.5px 5.5px; margin-top: 1px;">
+        <div class="info-card-title" style="color: #7c3aed; margin-bottom: 1px;">
+          <svg class="svc-icon" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a7 7 0 100 14A7 7 0 009 2zM9 6v3l2 2" stroke="#7c3aed" stroke-width="1.3" stroke-linecap="round"/></svg>
+          Simulación Interactiva de Evaluación con Microsoft Copilot Chat (Slide Oficial Microsoft)
         </div>
-        <div class="qa-scenario">
-          Un administrador intenta aprovisionar un registro con el nombre <code>My_Prod_ACR_EastUS</code> mediante la CLI y recibe un error de validación. ¿Cuál es el requisito técnico de Azure que causó el fallo?
-        </div>
-        <div class="qa-options">
-          <div>A) Debe tener entre 5 y 50 caracteres alfanuméricos exclusivamente y ser único a nivel global en Azure.</div>
-          <div>B) El SKU Basic únicamente admite nombres que inicien con el prefijo "registry".</div>
-          <div>C) Los registros de contenedores requieren que el nombre coincida exactamente con el Resource Group.</div>
-        </div>
-        <div class="qa-answer">
-          ✓ Respuesta Correcta: A) Debe tener entre 5 y 50 caracteres alfanuméricos exclusivamente y ser único globalmente.
-        </div>
-        <div class="qa-rationale">
-          <strong>Justificación:</strong> Cada ACR genera un FQDN público resoluble por DNS (<code>&lt;nombre&gt;.azurecr.io</code>). Por diseño en Azure, el nombre solo permite números y letras (sin guiones bajos <code>_</code> ni mayúsculas) y debe ser único a nivel mundial.
+        <div class="info-card-content" style="font-size: 7.1px; line-height: 1.22;">
+          <strong>Prompt Oficial de Examen para Copilot Chat:</strong>
+          <code style="display: block; margin: 1px 0; padding: 1.5px 4px; font-size: 6.8px; background: #f3e8ff; border: 1px solid #d8b4fe; border-radius: 2px; color: #581c87;">"As an Azure Container Registry and ACR Tasks expert, please create three multiple-choice questions that assess knowledge of serverless image building, OCI immutability, and container security on ACR. Present one question at a time and wait for my response before continuing. After each answer, provide a brief explanation of the correct choice before moving on to the next question."</code>
+          <em>Instrucción pedagógica:</em> Ejecute este prompt en Microsoft Copilot o Microsoft 365 Chat para consolidar los conceptos de gobernanza OCI y ACR Tasks antes de rendir el examen oficial AI-200.
         </div>
       </div>
     </div>
 
     <!-- Pie de página 10 -->
     <div class="page-footer">
-      <span>AZURE AI-200 / AI-102 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
+      <span>AZURE AI-200 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
       <span>PÁGINA 10 DE 11</span>
     </div>
   </div>
@@ -2176,7 +2442,7 @@
   <div class="page">
     <div class="page-content">
       <div>
-        <div class="header-badge">AZURE AI-200 / AI-102 • GLOSARIO TÉCNICO Y DICCIONARIO DE SIGLAS</div>
+        <div class="header-badge">AZURE AI-200 • GLOSARIO TÉCNICO Y DICCIONARIO DE SIGLAS</div>
         <h1 class="doc-title">Glosario de Términos, Conceptos Clave y Siglas de Azure</h1>
         <p class="doc-subtitle">Definiciones normativas OCI y diccionario exhaustivo de acrónimos utilizados en el laboratorio</p>
         <div class="divider"></div>
@@ -2381,7 +2647,7 @@
 
     <!-- Pie de página 11 -->
     <div class="page-footer">
-      <span>AZURE AI-200 / AI-102 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
+      <span>AZURE AI-200 • GUÍA DE LABORATORIO Y ARQUITECTURA</span>
       <span>PÁGINA 11 DE 11</span>
     </div>
   </div>
