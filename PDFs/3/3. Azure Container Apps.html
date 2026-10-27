@@ -21,7 +21,7 @@
     body {
       font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
       color: #1e293b;
-      background: #ffffff;
+      background: #f1f5f9;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
@@ -31,7 +31,7 @@
       height: 297mm;
       max-height: 297mm;
       overflow: hidden;
-      margin: 0 auto;
+      margin: 0 auto 20px auto;
       background: #ffffff;
       padding: 7mm 12mm 5mm 12mm;
       display: flex;
@@ -40,6 +40,42 @@
       page-break-after: always;
       break-after: page;
       position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      border: 1px solid #cbd5e1;
+    }
+
+    .page:last-child,
+    .page:last-of-type {
+      page-break-after: avoid;
+      break-after: avoid;
+      margin-bottom: 0;
+    }
+
+    @media print {
+      body {
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .page {
+        margin: 0 !important;
+        padding: 7mm 12mm 5mm 12mm !important;
+        box-shadow: none !important;
+        border: none !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        width: 210mm !important;
+        height: 297mm !important;
+        max-height: 297mm !important;
+        overflow: hidden !important;
+      }
+
+      .page:last-child,
+      .page:last-of-type {
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+      }
     }
 
     .page-content {
@@ -290,6 +326,7 @@
       border-radius: 4px;
       white-space: pre-wrap;
       word-break: break-all;
+      overflow-x: hidden;
     }
 
     .terminal-box .comment { color: #94a3b8; font-style: italic; }
@@ -327,9 +364,11 @@
 
     table.info-table {
       width: 100%;
+      table-layout: fixed;
       border-collapse: collapse;
       font-size: 7.6px;
       text-align: left;
+      word-break: break-word;
     }
 
     table.info-table th {
@@ -537,15 +576,16 @@
         <div class="divider"></div>
       </div>
 
-      <!-- Banner de Alineación Microsoft Learn -->
-      <div class="banner-blue" style="display: flex; justify-content: space-between; align-items: center; padding: 3px 6px;">
-        <div>
-          <strong>Alineación Curricular Oficial Microsoft Learn:</strong> Curso AI-200T00-A: Desarrollo de soluciones en la nube de IA en Azure (5 días / 120 hrs) •
-          <strong>Certificación:</strong> Microsoft Certified: Azure AI Cloud Developer Associate (Examen AI-200) •
-          <strong>Dominio 1:</strong> Desarrollo de soluciones en contenedores en Azure (20% – 25%)
+      <!-- Banner de Alineación Curricular Oficial Microsoft Learn -->
+      <div class="banner-blue" style="padding: 3.5px 7px; font-size: 7.8px; line-height: 1.3;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+          <strong>Alineación Curricular Oficial Microsoft Learn (Curso AI-200T00-A • Examen AI-200):</strong>
+          <span style="font-weight: 700; color: #0284c7; background: #e0f2fe; padding: 0.5px 4px; border-radius: 9999px;">Dominio 1: Contenedores (20% – 25%)</span>
         </div>
         <div>
-          <a href="https://learn.microsoft.com/es-es/credentials/certifications/resources/study-guides/ai-200" style="color: #0284c7; font-weight: 700; text-decoration: underline;" target="_blank">Guía de Estudio Oficial AI-200</a>
+          Cubre las competencias oficiales del <strong>Módulo 3: Implementación y escalado con KEDA en Azure Container Apps (ACA)</strong> (5 días / 120 hrs). 
+          <strong>Objetivos Oficiales:</strong> (1) Aprovisionar entorno serverless y microservicios; (2) Configurar ingress HTTPS, balanceador Envoy y terminación TLS; (3) Integrar Azure Container Registry con System-Assigned Managed Identity (rol <code>AcrPull</code>); (4) Enlazar secretos runtime mediante referencias <code>secretref</code>; (5) Inspección de logs, probes HTTP y escalado dinámico con KEDA.
+          Consulte la <a href="https://learn.microsoft.com/es-es/credentials/certifications/resources/study-guides/ai-200" style="color: #0284c7; text-decoration: underline; font-weight: 700;" target="_blank">Guía de Estudio Oficial AI-200</a> y el <a href="https://microsoftlearning.github.io/mslearn-azure-ai/instructions/azure-container-apps/01-aca-deploy-containers.html" style="color: #0284c7; text-decoration: underline; font-weight: 700;" target="_blank">Ejercicio Oficial de Container Apps (30 min)</a>.
         </div>
       </div>
 
@@ -667,6 +707,54 @@
 <span class="cmd">az</span> <span class="cmd">provider</span> <span class="cmd">register</span> <span class="flag">--namespace</span> <span class="val">Microsoft.ContainerRegistry</span></div>
         <div class="task-note">
           <strong>Validación de Registro:</strong> El registro de proveedores puede demorar 1-2 minutos. Compruebe su estado con <code>az provider show -n Microsoft.App --query registrationState -o tsv</code> hasta obtener <code>Registered</code>.
+        </div>
+      </div>
+
+      <!-- Diferenciación Arquitectónica: Azure CLI Extension vs. Resource Provider & Portal GUI -->
+      <div class="section-group">
+        <div class="section-heading">
+          <img class="svc-icon" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjxzdmcKICAgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIgogICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIgogICB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgeG1sbnM6c29kaXBvZGk9Imh0dHA6Ly9zb2RpcG9kaS5zb3VyY2Vmb3JnZS5uZXQvRFREL3NvZGlwb2RpLTAuZHRkIgogICB4bWxuczppbmtzY2FwZT0iaHR0cDovL3d3dy5pbmtzY2FwZS5vcmcvbmFtZXNwYWNlcy9pbmtzY2FwZSIKICAgaWQ9ImJjMThiYWRlLTU0ODEtNDQ3ZS1hOTU5LTY1OWQ3MjM0NjQ3NCIKICAgd2lkdGg9IjExLjI0Njk4NCIKICAgaGVpZ2h0PSIxOC4wMzA3ODciCiAgIHZpZXdCb3g9IjAgMCAxMS4yNDY5ODQgMTguMDMwNzg3IgogICB2ZXJzaW9uPSIxLjEiCiAgIHNvZGlwb2RpOmRvY25hbWU9IlN1YnNjcmlwdGlvbnMuc3ZnIgogICBpbmtzY2FwZTp2ZXJzaW9uPSIwLjkyLjMgKDI0MDU1NDYsIDIwMTgtMDMtMTEpIj4KICA8c29kaXBvZGk6bmFtZWR2aWV3CiAgICAgcGFnZWNvbG9yPSIjZmZmZmZmIgogICAgIGJvcmRlcmNvbG9yPSIjNjY2NjY2IgogICAgIGJvcmRlcm9wYWNpdHk9IjEiCiAgICAgb2JqZWN0dG9sZXJhbmNlPSIxMCIKICAgICBncmlkdG9sZXJhbmNlPSIxMCIKICAgICBndWlkZXRvbGVyYW5jZT0iMTAiCiAgICAgaW5rc2NhcGU6cGFnZW9wYWNpdHk9IjAiCiAgICAgaW5rc2NhcGU6cGFnZXNoYWRvdz0iMiIKICAgICBpbmtzY2FwZTp3aW5kb3ctd2lkdGg9IjE5MjAiCiAgICAgaW5rc2NhcGU6d2luZG93LWhlaWdodD0iMTAxNyIKICAgICBpZD0ibmFtZWR2aWV3NDgzMzciCiAgICAgc2hvd2dyaWQ9ImZhbHNlIgogICAgIGZpdC1tYXJnaW4tdG9wPSIwIgogICAgIGZpdC1tYXJnaW4tbGVmdD0iMCIKICAgICBmaXQtbWFyZ2luLXJpZ2h0PSIwIgogICAgIGZpdC1tYXJnaW4tYm90dG9tPSIwIgogICAgIGlua3NjYXBlOnpvb209IjQ4LjExMTExMSIKICAgICBpbmtzY2FwZTpjeD0iNi4wNzk0MDQ1IgogICAgIGlua3NjYXBlOmN5PSI5LjExNDA1ODgiCiAgICAgaW5rc2NhcGU6d2luZG93LXg9Ii04IgogICAgIGlua3NjYXBlOndpbmRvdy15PSItOCIKICAgICBpbmtzY2FwZTp3aW5kb3ctbWF4aW1pemVkPSIxIgogICAgIGlua3NjYXBlOmN1cnJlbnQtbGF5ZXI9ImJjMThiYWRlLTU0ODEtNDQ3ZS1hOTU5LTY1OWQ3MjM0NjQ3NCIgLz4KICA8ZGVmcwogICAgIGlkPSJkZWZzNDgzMjYiPgogICAgPHJhZGlhbEdyYWRpZW50CiAgICAgICBpZD0iYTQ0NWM3MTctOWQ3NS00NGM3LWJhNmItMGQ4ZjIzODNlNTYwIgogICAgICAgY3g9Ii0zNi42MzAwMDEiCiAgICAgICBjeT0iMTcuMTIwMDAxIgogICAgICAgcj0iMTEuMTgiCiAgICAgICBncmFkaWVudFRyYW5zZm9ybT0ibWF0cml4KDAuOTQsMCwwLDAuOTQsNDEuODgsLTcuNCkiCiAgICAgICBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxzdG9wCiAgICAgICAgIG9mZnNldD0iMC4yNyIKICAgICAgICAgc3RvcC1jb2xvcj0iI2ZmZDcwZiIKICAgICAgICAgaWQ9InN0b3A0ODMxNyIgLz4KICAgICAgPHN0b3AKICAgICAgICAgb2Zmc2V0PSIwLjQ5IgogICAgICAgICBzdG9wLWNvbG9yPSIjZmZjYjEyIgogICAgICAgICBpZD0ic3RvcDQ4MzE5IiAvPgogICAgICA8c3RvcAogICAgICAgICBvZmZzZXQ9IjAuODgiCiAgICAgICAgIHN0b3AtY29sb3I9IiNmZWFjMTkiCiAgICAgICAgIGlkPSJzdG9wNDgzMjEiIC8+CiAgICAgIDxzdG9wCiAgICAgICAgIG9mZnNldD0iMSIKICAgICAgICAgc3RvcC1jb2xvcj0iI2ZlYTExYiIKICAgICAgICAgaWQ9InN0b3A0ODMyMyIgLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgPC9kZWZzPgogIDx0aXRsZQogICAgIGlkPSJ0aXRsZTQ4MzI4Ij5JY29uLWdlbmVyYWwtMjwvdGl0bGU+CiAgPHBhdGgKICAgICBpZD0iZTNkMWU1OGMtZjc4ZS00ZmI1LTk4NTctMGM5MzMxZGE5OTc5IgogICAgIGQ9Im0gMTAuNjM5NDA0LDcuMTA2NzI3OCBhIDIuMDcsMi4wNyAwIDAgMCAwLC0yLjkzIHYgMCBMIDcuMDc5NDA0NSwwLjYwNjcyNzgzIGEgMi4wNiwyLjA2IDAgMCAwIC0yLjkyLDAgdiAwIEwgMC41OTk0MDQ0OCw0LjE3NjcyNzggYSAyLjA5LDIuMDkgMCAwIDAgMCwyLjkzIEwgMy41OTk0MDQ1LDEwLjEwNjcyOCBhIDAuNjEsMC42MSAwIDAgMSAwLjE3LDAuNDEgdiA1LjUyIGEgMC43LDAuNyAwIDAgMCAwLjIsMC41IGwgMS4zNSwxLjM1IGEgMC40NSwwLjQ1IDAgMCAwIDAuNjYsMCBsIDEuMzEsLTEuMzEgdiAwIGwgMC43NywtMC43NyBhIDAuMjYsMC4yNiAwIDAgMCAwLC0wLjM4IGwgLTAuNTUsLTAuNTYgYSAwLjI5LDAuMjkgMCAwIDEgMCwtMC40MiBsIDAuNTUsLTAuNTYgYSAwLjI2LDAuMjYgMCAwIDAgMCwtMC4zOCBsIC0wLjU4LC0wLjU5IGEgMC4yOCwwLjI4IDAgMCAxIDAsLTAuNDEgbCAwLjYsLTAuNTkgYSAwLjI2LDAuMjYgMCAwIDAgMCwtMC4zOCBsIC0wLjc3LC0wLjc4IHYgLTAuMjggeiBtIC00Ljk5OTk5OTUsLTUuNjQgYSAxLjE4LDEuMTggMCAxIDEgLTEuMTksMS4xOCAxLjE3LDEuMTcgMCAwIDEgMS4xNywtMS4xOCB6IgogICAgIGlua3NjYXBlOmNvbm5lY3Rvci1jdXJ2YXR1cmU9IjAiCiAgICAgc3R5bGU9ImZpbGw6dXJsKCNhNDQ1YzcxNy05ZDc1LTQ0YzctYmE2Yi0wZDhmMjM4M2U1NjApIiAvPgogIDxwYXRoCiAgICAgaWQ9ImEyMWE4ZjdhLTYxY2MtNDAzNS04NDQ5LWU1YzhmZTRkNGQ1ZSIKICAgICBkPSJtIDQuNjk5NDA0NSwxNi4xMjY3MjggdiAwIGEgMC4yNSwwLjI1IDAgMCAwIDAuMzgsLTAuMjEgdiAtNC40NSBhIDAuMjcsMC4yNyAwIDAgMCAtMC4xMSwtMC4yMiB2IDAgYSAwLjI1LDAuMjUgMCAwIDAgLTAuMzksMC4yMiB2IDQuNDUgYSAwLjI3LDAuMjcgMCAwIDAgMC4xMiwwLjIxIHoiCiAgICAgaW5rc2NhcGU6Y29ubmVjdG9yLWN1cnZhdHVyZT0iMCIKICAgICBzdHlsZT0ib3BhY2l0eTowLjc1O2ZpbGw6I2ZmOTMwMCIgLz4KICA8cmVjdAogICAgIGlkPSJlY2QzMTg5Yy1mYjFlLTRhMGUtYTJiNi1iYTJmMTFkZGE0ODQiCiAgICAgeD0iMi43Njk0MDQ2IgogICAgIHk9IjUuMzY2NzI3OCIKICAgICB3aWR0aD0iNS44NjAwMDAxIgogICAgIGhlaWdodD0iMC42OSIKICAgICByeD0iMC4zMTk5OTk5OSIKICAgICBzdHlsZT0ib3BhY2l0eTowLjc1O2ZpbGw6I2ZmOTMwMCIgLz4KICA8cmVjdAogICAgIGlkPSJhMTk0OWEzYy00ODE4LTRiZDEtYjIzNi0wZDk3MGI5MmZjNjIiCiAgICAgeD0iMi43Njk0MDQ2IgogICAgIHk9IjYuNDg2NzI4MiIKICAgICB3aWR0aD0iNS44NjAwMDAxIgogICAgIGhlaWdodD0iMC42OSIKICAgICByeD0iMC4zMTk5OTk5OSIKICAgICBzdHlsZT0ib3BhY2l0eTowLjc1O2ZpbGw6I2ZmOTMwMCIgLz4KICA8bWV0YWRhdGEKICAgICBpZD0ibWV0YWRhdGE0ODMzNCI+CiAgICA8cmRmOlJERj4KICAgICAgPHJkZjpsaT5wdWJsaWM6dHJ1ZTwvcmRmOmxpPgogICAgICA8cmRmOmxpPnNkazpNc1BvcnRhbEZ4LkJhc2UuSW1hZ2VzLlBvbHljaHJvbWF0aWMuS2V5KCk8L3JkZjpsaT4KICAgICAgPHJkZjpsaT5jYXRlZ29yeTogR2VuZXJhbDwvcmRmOmxpPgogICAgICA8Y2M6V29yawogICAgICAgICByZGY6YWJvdXQ9IiI+CiAgICAgICAgPGRjOmZvcm1hdD5pbWFnZS9zdmcreG1sPC9kYzpmb3JtYXQ+CiAgICAgICAgPGRjOnR5cGUKICAgICAgICAgICByZGY6cmVzb3VyY2U9Imh0dHA6Ly9wdXJsLm9yZy9kYy9kY21pdHlwZS9TdGlsbEltYWdlIiAvPgogICAgICAgIDxkYzp0aXRsZT5JY29uLWdlbmVyYWwtMjwvZGM6dGl0bGU+CiAgICAgIDwvY2M6V29yaz4KICAgIDwvcmRmOlJERj4KICA8L21ldGFkYXRhPgo8L3N2Zz4K" alt=""/>
+          Diferenciación Arquitectónica: Azure CLI Extension vs. Azure Resource Provider &amp; Gestión en Azure Portal
+        </div>
+        <div class="two-col-grid">
+          <!-- Columna 1: Azure CLI Extension -->
+          <div class="info-card">
+            <div class="info-card-title">
+              <span class="badge-tag badge-blue" style="margin-right: 4px;">Cliente Local</span>
+              Azure CLI Extension (az extension)
+            </div>
+            <div class="info-card-content">
+              <p>• <strong>Definición y Arquitectura:</strong> Módulo de Python empaquetado (wheel) que amplía dinámicamente el árbol de comandos de Azure CLI en tu máquina sin requerir la reinstalación del ejecutable base del SDK.</p>
+              <p>• <strong>Ubicación y Almacenamiento:</strong> Reside estrictamente en el disco del cliente local (<code>~/.azure/cliextensions/</code> en Linux/macOS o <code>%USERPROFILE%\.azure\cliextensions</code> en Windows).</p>
+              <p>• <strong>Comportamiento en Azure Portal:</strong></p>
+              <div style="padding-left: 6px; margin: 1px 0 2px 0;">
+                <p>– <strong>No existe en Azure Portal:</strong> Al ser una utilidad del lado cliente, no constituye un recurso en la nube ni se proyecta en la consola web de Azure.</p>
+                <p>– <em>Distinción Crítica:</em> No confundir con las <strong>VM Extensions</strong> (agentes de cómputo que se instalan dentro de máquinas virtuales y sí se visualizan en el Portal).</p>
+              </div>
+              <p>• <strong>Auditoría en Terminal:</strong> Se inspecciona mediante <code>az extension list -o table</code> y se actualiza con <code>az extension update --name containerapp</code>.</p>
+            </div>
+          </div>
+
+          <!-- Columna 2: Azure Resource Provider -->
+          <div class="info-card">
+            <div class="info-card-title">
+              <span class="badge-tag badge-green" style="margin-right: 4px;">Plano de Control ARM</span>
+              Azure Resource Provider (az provider)
+            </div>
+            <div class="info-card-content">
+              <p>• <strong>Definición y Arquitectura:</strong> Servicio backend de Azure Resource Manager (ARM) que actúa como la API REST y fábrica de recursos para un namespace dado (<code>Microsoft.App</code>, <code>Microsoft.OperationalInsights</code>, <code>Microsoft.ContainerRegistry</code>).</p>
+              <p>• <strong>Ámbito de Suscripción:</strong> Opera a nivel de suscripción de Azure. Si el proveedor no se encuentra en estado <code>Registered</code>, ARM bloquea cualquier despliegue con el error <code>MissingSubscriptionRegistration</code>.</p>
+              <p>• <strong>Inspección y Registro en Azure Portal (GUI):</strong></p>
+              <div style="margin: 2px 0 1px 0;">
+                <div class="portal-breadcrumb">Azure Portal &gt; Subscriptions (Suscripciones) &gt; [Tu Suscripción] &gt; Settings &gt; Resource providers</div>
+              </div>
+              <div style="padding-left: 6px; margin-top: 1px;">
+                <p>1. <strong>Búsqueda:</strong> Filtrar por el namespace (ej. <code>Microsoft.App</code>).</p>
+                <p>2. <strong>Verificación:</strong> Auditar la columna <strong>Status</strong> (<code>Registered</code> vs <code>NotRegistered</code>).</p>
+                <p>3. <strong>Acción GUI:</strong> Seleccionar la fila y pulsar <strong>Register</strong> (o <strong>Re-register</strong>) en la barra superior. El estado transiciona de <code>Registering</code> a <code>Registered</code>.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
