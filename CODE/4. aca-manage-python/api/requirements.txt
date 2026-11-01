@@ -1,0 +1,12 @@
+# =============================================================================
+# [EN] Production Dependencies for Azure Container Apps Microservice
+# [ES] Dependencias de Producción para el Microservicio en Azure Container Apps
+# =============================================================================
+
+# [EN] Lightweight WSGI web framework for REST API routing and JSON handling
+# [ES] Framework web WSGI ligero para enrutamiento de API REST y manejo de JSON
+flask==3.0.0
+
+# [EN] Production-grade WSGI HTTP Server with multi-worker process management
+# [ES] Servidor HTTP WSGI para producción con gestión de procesos multi-worker
+gunicorn==22.0.0
