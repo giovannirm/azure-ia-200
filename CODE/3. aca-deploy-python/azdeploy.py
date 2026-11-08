@@ -63,6 +63,10 @@ TARGET_PORT = "8000"
 # [ES] Nombre del modelo de IA cognitiva / OpenAI configurado para procesamiento
 MODEL_NAME = "gpt-5.1"
 
+# [EN] Tokens Per Minute (TPM) limit configured for cognitive AI model rate limiting (Task 1)
+# [ES] Límite de Tokens por Minuto (TPM) configurado para control de cuota del modelo de IA (Task 1)
+TPM_LIMIT = "5000"
+
 # [EN] Demo API key for embeddings; injected into ACA as an encrypted secret
 # [ES] Clave de API de prueba para embeddings; inyectada en ACA como secreto cifrado
 EMBEDDINGS_API_KEY = "demo-key-12345"
@@ -402,6 +406,7 @@ def create_containerapps_environment(acr_name: str, aca_env: str) -> bool:
         "TARGET_PORT": TARGET_PORT,
         "MODEL_NAME": MODEL_NAME,
         "EMBEDDINGS_API_KEY": EMBEDDINGS_API_KEY,
+        "TPM_LIMIT": TPM_LIMIT,
         "LOCATION": location,
     })
     print()
